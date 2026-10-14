@@ -1,0 +1,41 @@
+{
+  "description": "Training small-shot set by M. No SIR directory split; SIR is random per sample.",
+  "output_root": "/root/Moe_DIffmic/MoE_DiffIC/dataset/train_2560",
+  "score_based_root": "/root/Moe_DIffmic/score_based_source_separation",
+  "interference_types": [
+    "NFM",
+    "RFM",
+    "LFM",
+    "MT",
+    "ST",
+    "PL",
+    "NB",
+    "WB"
+  ],
+  "m_values": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "sir_values_random_pool_db": [
+    -25,
+    -20,
+    -15,
+    -10,
+    -5,
+    0,
+    5
+  ],
+  "num_symbols": 160,
+  "signal_len": 2560,
+  "bit_len": 320,
+  "seed": 42,
+  "clean_generation_source": "fallback_numpy_rrc",
+  "layout": {
+    "clean_bank": "clean_bank_qpsk.npz",
+    "combo_file_pattern": "M{M:03d}/{interference_type}/train_random.npz",
+    "manifest": "manifest.csv"
+  }
+}

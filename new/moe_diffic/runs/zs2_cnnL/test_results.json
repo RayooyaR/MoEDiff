@@ -1,0 +1,128 @@
+{
+  "exp_name": "zs2_cnnL",
+  "model_type": "cnn",
+  "use_geometric_aug": false,
+  "num_shots": -1,
+  "best_epoch": 34,
+  "best_snr": -0.08698665453442524,
+  "sir_results": {
+    "-20": {
+      "mse_mean": 0.19642279864754528,
+      "sqi_mean": 26.561039795562504,
+      "ber_mean": 0.15599124203821654,
+      "ber_noisy_input_mean": 0.38669453290870487,
+      "count": 600
+    },
+    "-15": {
+      "mse_mean": 0.1665373414584125,
+      "sqi_mean": 22.702037175317574,
+      "ber_mean": 0.13619227707006368,
+      "ber_noisy_input_mean": 0.36620820063694265,
+      "count": 600
+    },
+    "-10": {
+      "mse_mean": 0.14150196142106627,
+      "sqi_mean": 18.73155512479721,
+      "ber_mean": 0.1144174628450106,
+      "ber_noisy_input_mean": 0.3262851645435244,
+      "count": 600
+    },
+    "-5": {
+      "mse_mean": 0.11309558810122931,
+      "sqi_mean": 14.80837166099389,
+      "ber_mean": 0.08909501061571125,
+      "ber_noisy_input_mean": 0.2625816082802548,
+      "count": 600
+    },
+    "0": {
+      "mse_mean": 0.0707838803421085,
+      "sqi_mean": 11.298754792286486,
+      "ber_mean": 0.05814556794055202,
+      "ber_noisy_input_mean": 0.15371284501061572,
+      "count": 600
+    },
+    "5": {
+      "mse_mean": 0.03865927796927281,
+      "sqi_mean": 8.684939096626278,
+      "ber_mean": 0.03192277070063694,
+      "ber_noisy_input_mean": 0.06277932590233547,
+      "count": 600
+    },
+    "10": {
+      "mse_mean": 0.023833243731642143,
+      "sqi_mean": 6.6207644502890926,
+      "ber_mean": 0.018136942675159234,
+      "ber_noisy_input_mean": 0.022005705944798302,
+      "count": 600
+    }
+  },
+  "type_results": {
+    "MT": {
+      "mse_mean": 0.08982520707733264,
+      "sqi_mean": 14.731931940083628,
+      "ber_mean": 0.06955328707916288,
+      "ber_noisy_input_mean": 0.27023477782832883,
+      "count": 840
+    },
+    "NB": {
+      "mse_mean": 0.09007918169816202,
+      "sqi_mean": 14.7230160472333,
+      "ber_mean": 0.07273847437063997,
+      "ber_noisy_input_mean": 0.2624848346982105,
+      "count": 840
+    },
+    "PL": {
+      "mse_mean": 0.023452683942325945,
+      "sqi_mean": 19.489796492232408,
+      "ber_mean": 0.012593361389141645,
+      "ber_noisy_input_mean": 0.05153169548074007,
+      "count": 840
+    },
+    "ST": {
+      "mse_mean": 0.02530192540836565,
+      "sqi_mean": 19.527271975054944,
+      "ber_mean": 0.01844953745829542,
+      "ber_noisy_input_mean": 0.29550396193509254,
+      "count": 840
+    },
+    "WB": {
+      "mse_mean": 0.3076510673532972,
+      "sqi_mean": 9.676170756733605,
+      "ber_mean": 0.2580233924780103,
+      "ber_noisy_input_mean": 0.24900714664846832,
+      "count": 840
+    }
+  },
+  "eval_set": "test",
+  "mod_results": {
+    "16QAM": {
+      "mse_mean": 0.1259450665874673,
+      "sqi_mean": 13.582714857566923,
+      "ber_mean": 0.14598896724294813,
+      "ber_noisy_input_mean": 0.28137198589626927,
+      "count": 1400
+    },
+    "BPSK": {
+      "mse_mean": 0.08302039560994931,
+      "sqi_mean": 18.435651533756847,
+      "ber_mean": 0.045166060054595086,
+      "ber_noisy_input_mean": 0.18046860782529572,
+      "count": 1400
+    },
+    "QPSK": {
+      "mse_mean": 0.11282057709027347,
+      "sqi_mean": 14.87054593547896,
+      "ber_mean": 0.06765980436760692,
+      "ber_noisy_input_mean": 0.21541685623293907,
+      "count": 1400
+    }
+  },
+  "global": {
+    "ber_mean": 0.08627161055505003,
+    "ber_noisy_input_mean": 0.22575248331816802,
+    "count": 4200
+  },
+  "select_metric": "ber",
+  "data_backend": "new",
+  "noise_mode": "with"
+}

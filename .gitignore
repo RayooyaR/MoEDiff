@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.env.*
+*.pth
+*.pt
+*.ckpt
+*.log
+data/
+datasets/
+checkpoints/
+wandb/
+*.rar

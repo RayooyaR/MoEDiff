@@ -1,0 +1,15 @@
+{
+  "dataset_root": "/root/Moe_DIffmic/MoE_DiffIC/dataset/test_2560",
+  "n_value": 100,
+  "sir_values": [
+    -25,
+    -10,
+    0,
+    5
+  ],
+  "samples_per_combo": 2,
+  "num_combo_files": 32,
+  "max_sir_abs_error_db": 5.95377152023957e-08,
+  "mean_sir_abs_error_db": 1.0273490058665402e-08,
+  "summary_csv": "/root/Moe_DIffmic/MoE_DiffIC/dataset/test_2560/viz/summary_N100.csv"
+}

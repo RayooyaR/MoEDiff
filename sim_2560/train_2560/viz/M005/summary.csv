@@ -1,0 +1,9 @@
+m,interference_type,num_samples,sir_target_mean_db,sir_realized_mean_db,sir_abs_error_db,npz_path
+5,NFM,5,-17.0,-17.0,0.0,M005/NFM/train_random.npz
+5,RFM,5,-10.0,-10.0,0.0,M005/RFM/train_random.npz
+5,LFM,5,-15.0,-15.0,0.0,M005/LFM/train_random.npz
+5,MT,5,-9.0,-9.0,0.0,M005/MT/train_random.npz
+5,ST,5,-9.0,-9.0,0.0,M005/ST/train_random.npz
+5,PL,5,-7.0,-7.0,0.0,M005/PL/train_random.npz
+5,NB,5,-7.0,-7.0,0.0,M005/NB/train_random.npz
+5,WB,5,-17.0,-17.0,0.0,M005/WB/train_random.npz

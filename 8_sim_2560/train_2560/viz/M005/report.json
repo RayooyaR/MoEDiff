@@ -1,0 +1,9 @@
+{
+  "dataset_root": "/root/Moe_DIffmic/MoE_DiffIC/dataset/train_2560",
+  "m_value": 5,
+  "samples_per_type": 2,
+  "num_types": 8,
+  "max_sir_abs_error_db": 0.0,
+  "mean_sir_abs_error_db": 0.0,
+  "summary_csv": "/root/Moe_DIffmic/MoE_DiffIC/dataset/train_2560/viz/M005/summary.csv"
+}

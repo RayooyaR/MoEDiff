@@ -1,0 +1,16 @@
+bash eval_avg.sh zs2_moe moe
+bash eval_avg.sh zs2_dit dit
+bash eval_avg.sh zs2_icdm icdm
+bash eval_avg.sh zs2_diffcom diffcom
+bash eval_avg.sh zs1_moe moe
+bash eval_avg.sh zs1_dit dit
+bash eval_avg.sh zs1_icdm icdm
+bash eval_avg.sh zs1_diffcom diffcom
+bash eval_avg.sh zs3_moe moe
+bash eval_avg.sh zs3_dit dit
+bash eval_avg.sh zs3_icdm icdm
+bash eval_avg.sh zs3_diffcom diffcom
+bash eval_avg.sh ef_moe moe --splits test test_ood --data_root ../data/v5_effects
+bash eval_avg.sh ef_dit dit --splits test test_ood --data_root ../data/v5_effects
+bash eval_avg.sh ef_icdm icdm --splits test test_ood --data_root ../data/v5_effects
+bash eval_avg.sh ef_diffcom diffcom --splits test test_ood --data_root ../data/v5_effects

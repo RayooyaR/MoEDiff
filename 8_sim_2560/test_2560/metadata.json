@@ -1,0 +1,47 @@
+{
+  "description": "QPSK seed pairs from score_based clean modulation + MoE_DiffIC 8-type interference",
+  "output_root": "/root/Moe_DIffmic/MoE_DiffIC/dataset/test_2560",
+  "score_based_root": "/root/Moe_DIffmic/score_based_source_separation",
+  "interference_types": [
+    "NFM",
+    "RFM",
+    "LFM",
+    "MT",
+    "ST",
+    "PL",
+    "NB",
+    "WB"
+  ],
+  "n_values": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+  ],
+  "sir_values_db": [
+    -25,
+    -20,
+    -15,
+    -10,
+    -5,
+    0,
+    5
+  ],
+  "num_symbols": 160,
+  "signal_len": 2560,
+  "bit_len": 320,
+  "seed": 42,
+  "interference_mode": "per_sir_resample",
+  "clean_generation_source": "fallback_numpy_rrc",
+  "layout": {
+    "clean_bank": "clean_bank_qpsk.npz",
+    "combo_file_pattern": "N{N:03d}/{interference_type}/sir_{neg|pos}XXdB.npz",
+    "manifest": "manifest.csv"
+  }
+}
