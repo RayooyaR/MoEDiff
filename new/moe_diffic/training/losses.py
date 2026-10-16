@@ -323,3 +323,41 @@ class CombinedLoss(nn.Module):
         losses['total'] = total
 
         return total, losses
+
+
+class MultiResSTFTLoss(nn.Module):
+    """多分辨率 STFT 损失（Parallel WaveGAN, ICASSP 2020 的谱收敛 + 对数幅度；可选复数谱 L1），作用在复基带信号 z=I+jQ 上（双边谱）。
+
+    每个分辨率 (n_fft, hop, win=n_fft, 汉宁窗)：
+      L_sc   = ‖|S|-|Ŝ|‖_F / ‖|S|‖_F               谱收敛（逐样本）
+      L_mag  = mean | log|S| - log|Ŝ| |             对数幅度 L1
+      L_cplx = mean(|Re(S-Ŝ)| + |Im(S-Ŝ)|) / mean|S|  复数谱 L1（含相位；按幅度归一化，量纲与前两项相当）
+    对分辨率取平均；逐样本再乘 weight (B,)（扩散里用 ᾱ_t，使高噪声步不强行拟合模糊的 x̂0）后取平均。
+    """
+
+    def __init__(self, resolutions=((64, 16), (128, 32), (256, 64), (512, 128)), complex_term=False, eps=1e-7):
+        super().__init__()
+        self.res, self.complex_term, self.eps = tuple(resolutions), bool(complex_term), eps
+
+    def _stft(self, z, n_fft, hop):
+        win = torch.hann_window(n_fft, device=z.device, dtype=torch.float32)
+        return torch.stft(z, n_fft=n_fft, hop_length=hop, win_length=n_fft, window=win, center=True, return_complex=True, onesided=False)
+
+    def forward(self, x0_pred, x0_target, weight=None):
+        zp = torch.complex(x0_pred[:, 0].float(), x0_pred[:, 1].float())
+        zt = torch.complex(x0_target[:, 0].float(), x0_target[:, 1].float())
+        per = 0.0
+        for n_fft, hop in self.res:
+            sp, st = self._stft(zp, n_fft, hop), self._stft(zt, n_fft, hop)
+            mp, mt = sp.abs().clamp_min(self.eps), st.abs().clamp_min(self.eps)
+            sc = (mt - mp).flatten(1).norm(dim=1) / mt.flatten(1).norm(dim=1).clamp_min(self.eps)
+            mag = (mt.log() - mp.log()).abs().flatten(1).mean(dim=1)
+            term = sc + mag
+            if self.complex_term:
+                d = st - sp
+                term = term + (d.real.abs() + d.imag.abs()).flatten(1).mean(dim=1) / mt.flatten(1).mean(dim=1).clamp_min(self.eps)
+            per = per + term
+        per = per / len(self.res)
+        if weight is not None:
+            per = per * weight.to(per.dtype)
+        return per.mean()

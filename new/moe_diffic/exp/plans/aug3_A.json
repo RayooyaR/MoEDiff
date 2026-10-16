@@ -1,0 +1,83 @@
+{
+"profile": "aug3",
+"machine": "A",
+"gpus": 1,
+"jobs": [
+{
+"name": "au_rotremix_p10_s43",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name au_rotremix_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug rot,remix && $PY evaluate_new.py --runs au_rotremix_p10_s43 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/au_rotremix_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "AUG",
+"cfg": "aug_rotremix",
+"size": 10
+},
+"deps_mode": "all_done"
+},
+{
+"name": "au_rotremix_p10_s44",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name au_rotremix_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 44 --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug rot,remix && $PY evaluate_new.py --runs au_rotremix_p10_s44 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/au_rotremix_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "AUG",
+"cfg": "aug_rotremix",
+"size": 10
+},
+"deps_mode": "all_done"
+},
+{
+"name": "au_rot_p10_s43",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name au_rot_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug rot && $PY evaluate_new.py --runs au_rot_p10_s43 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/au_rot_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "AUG",
+"cfg": "aug_rot",
+"size": 10
+},
+"deps_mode": "all_done"
+},
+{
+"name": "au_rot_p10_s44",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name au_rot_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 44 --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug rot && $PY evaluate_new.py --runs au_rot_p10_s44 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/au_rot_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "AUG",
+"cfg": "aug_rot",
+"size": 10
+},
+"deps_mode": "all_done"
+}
+]
+}

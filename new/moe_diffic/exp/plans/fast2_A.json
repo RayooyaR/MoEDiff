@@ -1,0 +1,169 @@
+{
+"profile": "fast2",
+"machine": "A",
+"gpus": 1,
+"jobs": [
+{
+"name": "v4b_p10_s43",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4b_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 43 --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4b_p10_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4b_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "FAST",
+"cfg": "v4b_p10_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4t_p10_s43",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4t_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 43 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4t_p10_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4t_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "FAST",
+"cfg": "v4t_p10_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4o_p10_s43",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4o_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 43 --disable_moe --oracle_cond type_attrs --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4o_p10_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4o_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "FAST",
+"cfg": "v4o_p10_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4b_p10_s44",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4b_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 44 --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4b_p10_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4b_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "FAST",
+"cfg": "v4b_p10_s44"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4t_p10_s44",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4t_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 44 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4t_p10_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4t_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "FAST",
+"cfg": "v4t_p10_s44"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4o_p10_s44",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4o_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 44 --disable_moe --oracle_cond type_attrs --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4o_p10_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4o_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "FAST",
+"cfg": "v4o_p10_s44"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4to_p10_s42",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4to_p10_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 42 --experts TF --oracle_cond type_attrs --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4to_p10_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4to_p10_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FAST",
+"cfg": "v4to_p10_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4to_p10_s43",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4to_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 43 --experts TF --oracle_cond type_attrs --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4to_p10_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4to_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "FAST",
+"cfg": "v4to_p10_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "v4to_p10_s44",
+"group": "FAST",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name v4to_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --train_per_cell 6 --aug_multiplier 10 --new_data_root ../data/v4_digital --epochs 107 --seed 44 --experts TF --oracle_cond type_attrs --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs v4to_p10_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v4_digital && rm -f runs/v4to_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "FAST",
+"cfg": "v4to_p10_s44"
+},
+"deps_mode": "all_done"
+}
+]
+}

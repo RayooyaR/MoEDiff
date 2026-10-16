@@ -1,0 +1,814 @@
+{
+"profile": "fill",
+"machine": "A",
+"gpus": 1,
+"jobs": [
+{
+"name": "full8_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name full8_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --epochs 100 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs full8_unet_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/full8_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "full8_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "full8_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name full8_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --epochs 100 --seed 42 --experts TF && $PY evaluate_new.py --runs full8_tf_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/full8_tf_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "full8_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "zs1_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name zs1_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types NB WB PL LFM NFM RFM --epochs 133 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs zs1_unet_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/zs1_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "zs1_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "zs3_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name zs3_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB LFM NFM RFM --epochs 114 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs zs3_unet_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/zs3_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "zs3_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "zs4_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name zs4_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT PL LFM NFM RFM --epochs 133 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs zs4_unet_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/zs4_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "zs4_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "zs4_dit",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name zs4_dit --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT PL LFM NFM RFM --epochs 133 --seed 42 --disable_moe --true_uncond && $PY evaluate_new.py --runs zs4_dit --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/zs4_dit/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "zs4_dit"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "zs4_ex_TF",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name zs4_ex_TF --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT PL LFM NFM RFM --epochs 133 --seed 42 --experts TF && $PY evaluate_new.py --runs zs4_ex_TF --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/zs4_ex_TF/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "zs4_ex_TF"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "j0_p30_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name j0_p30_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 12 --aug_multiplier 3 --epochs 176 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs j0_p30_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/j0_p30_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "j0_p30_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "j0_p30_s43",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name j0_p30_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 12 --aug_multiplier 3 --epochs 176 --seed 43 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs j0_p30_s43 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/j0_p30_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "FILL",
+"cfg": "j0_p30_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lof_RFM_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lof_RFM_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs lof_RFM_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lof_RFM_tf_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "lof_RFM_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lof_WB_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lof_WB_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout WB --epochs 114 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs lof_WB_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lof_WB_tf_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "lof_WB_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "zs4_moe_avg8",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY evaluate_new.py --runs zs4_moe --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16",
+"cost": 0.3,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "FILL"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fsK1_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fsK1_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 1 --aug_multiplier 40 --epochs 159 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs fsK1_unet_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/fsK1_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "fsK1_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs1_na_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs1_na_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 1 --aug_multiplier 40 --epochs 159 --seed 42 --experts TF && $PY evaluate_new.py --runs fs1_na_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/fs1_na_tf_s42/best_model.pth",
+"cost": 0.75,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "fs1_na_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fsK5_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fsK5_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 5 --aug_multiplier 8 --epochs 159 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs fsK5_unet_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/fsK5_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "fsK5_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs5_na_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs5_na_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 5 --aug_multiplier 8 --epochs 159 --seed 42 --experts TF && $PY evaluate_new.py --runs fs5_na_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/fs5_na_tf_s42/best_model.pth",
+"cost": 0.75,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "fs5_na_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fsK10_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fsK10_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 10 --aug_multiplier 4 --epochs 159 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs fsK10_unet_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/fsK10_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "fsK10_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs10_na_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs10_na_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 10 --aug_multiplier 4 --epochs 159 --seed 42 --experts TF && $PY evaluate_new.py --runs fs10_na_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/fs10_na_tf_s42/best_model.pth",
+"cost": 0.75,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "fs10_na_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "ef_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name ef_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --new_data_root ../data/v5_effects --epochs 100 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs ef_unet_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v5_effects && rm -f runs/ef_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "ef_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "ef_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name ef_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --new_data_root ../data/v5_effects --epochs 100 --seed 42 --experts TF && $PY evaluate_new.py --runs ef_tf_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v5_effects && rm -f runs/ef_tf_s42/best_model.pth",
+"cost": 0.75,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "ef_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "ccir_unet_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name ccir_unet_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --new_data_root ../data/v3b_ccir --epochs 100 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln && $PY evaluate_new.py --runs ccir_unet_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v3b_ccir && rm -f runs/ccir_unet_s42/best_model.pth",
+"cost": 0.8,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "ccir_unet_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "ccir_tf_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name ccir_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --new_data_root ../data/v3b_ccir --epochs 100 --seed 42 --experts TF && $PY evaluate_new.py --runs ccir_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 --data_root ../data/v3b_ccir && rm -f runs/ccir_tf_s42/best_model.pth",
+"cost": 0.75,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "FILL",
+"cfg": "ccir_tf_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p10_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p10_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 91 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p10_s42 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p10_s42/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_p10_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p10_s43",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p10_s43 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 91 --seed 43 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p10_s43 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p10_s43/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 43,
+"exp": "FILL",
+"cfg": "rest_p10_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p10_s44",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p10_s44 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 91 --seed 44 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p10_s44 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p10_s44/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 44,
+"exp": "FILL",
+"cfg": "rest_p10_s44"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p30_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p30_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 12 --aug_multiplier 3 --epochs 101 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p30_s42 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p30_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_p30_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p30_s43",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p30_s43 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 12 --aug_multiplier 3 --epochs 101 --seed 43 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p30_s43 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p30_s43/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 43,
+"exp": "FILL",
+"cfg": "rest_p30_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p30_s44",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p30_s44 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 12 --aug_multiplier 3 --epochs 101 --seed 44 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p30_s44 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p30_s44/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 44,
+"exp": "FILL",
+"cfg": "rest_p30_s44"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p100_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p100_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --epochs 91 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p100_s42 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p100_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_p100_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p100_s43",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p100_s43 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --epochs 91 --seed 43 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p100_s43 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p100_s43/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 43,
+"exp": "FILL",
+"cfg": "rest_p100_s43"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p100_s44",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p100_s44 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --epochs 91 --seed 44 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p100_s44 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p100_s44/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 44,
+"exp": "FILL",
+"cfg": "rest_p100_s44"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_full8_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_full8_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --epochs 57 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_full8_s42 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_full8_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_full8_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_zs1_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_zs1_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types NB WB PL LFM NFM RFM --epochs 76 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_zs1_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_zs1_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_zs1_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_zs3_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_zs3_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB LFM NFM RFM --epochs 65 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_zs3_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_zs3_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_zs3_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_zs4_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_zs4_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT PL LFM NFM RFM --epochs 76 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_zs4_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_zs4_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_zs4_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_K1_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_K1_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 1 --aug_multiplier 40 --epochs 91 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_K1_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_K1_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_K1_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_K5_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_K5_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 5 --aug_multiplier 8 --epochs 91 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_K5_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_K5_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_K5_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_K10_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_K10_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 10 --aug_multiplier 4 --epochs 91 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_K10_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_K10_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_K10_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_lo_LFM_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_lo_LFM_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 65 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_lo_LFM_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_lo_LFM_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_lo_LFM_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_lo_RFM_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_lo_RFM_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 65 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_lo_RFM_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_lo_RFM_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_lo_RFM_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_lo_MT_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_lo_MT_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout MT --epochs 65 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_lo_MT_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_lo_MT_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_lo_MT_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_lo_PL_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_lo_PL_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout PL --epochs 65 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_lo_PL_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_lo_PL_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_lo_PL_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_lo_WB_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_lo_WB_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout WB --epochs 65 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_lo_WB_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_lo_WB_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_lo_WB_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_ef_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_ef_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --new_data_root ../data/v5_effects --epochs 57 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_ef_s42 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16 --data_root ../data/v5_effects && rm -f runs/rest_ef_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_ef_s42"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_ccir_s42",
+"group": "FILL",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_ccir_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval  --new_data_root ../data/v3b_ccir --epochs 100 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_ccir_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16 --data_root ../data/v3b_ccir && rm -f runs/rest_ccir_s42/best_model.pth",
+"cost": 0.5,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "FILL",
+"cfg": "rest_ccir_s42"
+},
+"deps_mode": "all_done"
+}
+]
+}

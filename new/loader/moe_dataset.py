@@ -28,6 +28,11 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+from attributes import compute_attrs, N_ATTR            # noqa: E402
+from physical_augment import apply_ops, parse_ops        # noqa: E402
+
 NOISE_MODES = ('with', 'without')
 
 
@@ -66,7 +71,8 @@ def _iq(x):
 
 class MoEDiffDataset(Dataset):
     def __init__(self, root, split, types=None, mods=None, sirs=None, noise_mode='with',
-                 max_per_cell=None, seed=0, augment=False, virtual_multiplier=1):
+                 max_per_cell=None, seed=0, augment=False, virtual_multiplier=1,
+                 return_aux=False, aug_ops=None, attr_stats=None):
         """
         root          数据目录（含 metadata.json 与 <split>/<类型>/<调制>/sir_*.npz）
         split         'train' | 'val' | 'test' | 'test_ood'
@@ -77,11 +83,18 @@ class MoEDiffDataset(Dataset):
                       因此同一种子下 n 小的集合包含于 n 大的集合（小样本子集）。
         augment       True 时每次取样返回随机增强后的视图（见 augment_pair），仅用于训练集
         virtual_multiplier  数据集长度放大倍数（每个样本在一个 epoch 内被取到这么多次，每次增强不同）
+        return_aux    True 时每条额外返回 interf(2,L)=干扰信号 与 attrs(12,)=由干扰计算的物理属性（实验 3 辅助监督；用 attr_stats=(mean,std) 标准化）
+        aug_ops       物理增强算子，如 'rot,remix'（见 physical_augment.py）；仅用于训练集，与旧的 augment 互斥
         """
         if noise_mode not in NOISE_MODES:
             raise ValueError('noise_mode must be one of %s' % (NOISE_MODES,))
         self.root = Path(root)
         self.augment = bool(augment)
+        self.aug_ops = parse_ops(aug_ops) if isinstance(aug_ops, str) or aug_ops is None else tuple(aug_ops)
+        self.return_aux = bool(return_aux)
+        if self.aug_ops and self.augment:
+            raise ValueError('augment 与 aug_ops 互斥')
+        self.sps = None
         self.virtual_multiplier = max(1, int(virtual_multiplier))
         self.split = split
         self.noise_mode = noise_mode
@@ -92,6 +105,7 @@ class MoEDiffDataset(Dataset):
         self.meta = meta
         self.sig_len = int(meta['SIG_LEN'])
         self.n_sym = int(meta['N_SYM'])
+        self.sps = int(meta['SPS'])
 
         for name, want, have in (('types', types, self.type_names), ('mods', mods, self.mod_names)):
             bad = [w for w in (want or []) if w not in have]
@@ -136,9 +150,18 @@ class MoEDiffDataset(Dataset):
                     demod=np.array([z['rolloff'][i], z['timing_offset'][i], z['cfo'][i], z['phase'][i],
                                     z['demod_gain'][i]], dtype=np.float32),
                     clean_id=int(z['clean_id'][i]),
+                    interf=_iq(interf[i]),
                 ))
         if not self.samples:
             raise ValueError('no samples selected (check types/mods/sirs filters)')
+        self.attr_mean = self.attr_std = None
+        if self.return_aux:
+            A = compute_attrs(np.stack([s_['interf'] for s_ in self.samples]))
+            for s_, a_ in zip(self.samples, A):
+                s_['attrs_raw'] = a_
+            if attr_stats is None:
+                attr_stats = (A.mean(0), A.std(0) + 1e-6)
+            self.attr_mean, self.attr_std = np.asarray(attr_stats[0], np.float32), np.asarray(attr_stats[1], np.float32)
 
     def __len__(self):
         return len(self.samples) * self.virtual_multiplier      # 不增强时为同一样本的重复（用于保持各设置的每 epoch 步数一致）
@@ -146,22 +169,34 @@ class MoEDiffDataset(Dataset):
     def __getitem__(self, index):
         s = self.samples[index % len(self.samples)]
         clean, noisy = s['clean'], s['noisy']
+        interf, sir_db, snr_db, demod, itype, attrs = s['interf'], s['sir_db'], s['snr_db'], s['demod'], s['interference_type'], s.get('attrs_raw')
+        if self.aug_ops:
+            rng = np.random.default_rng([int(torch.initial_seed()) % (2 ** 32), int(index)])
+            t = apply_ops(self.aug_ops, dict(clean=clean, interf=interf, noisy=noisy, demod=demod, sps=self.sps, sir_db=sir_db, snr_db=snr_db,
+                                             clean_id=s['clean_id'], interference_type=itype, attrs=attrs), rng, pool=self.samples)
+            clean, noisy, interf, demod, sir_db, snr_db, itype, attrs = t['clean'], t['noisy'], t['interf'], t['demod'], t['sir_db'], t['snr_db'], t['interference_type'], t.get('attrs')
+            if self.return_aux and attrs is None:
+                attrs = compute_attrs(interf[None])[0]
         if self.augment:
             # 每个 worker 的 torch 种子在每个 epoch 都会变化，因此同一样本在不同 epoch 得到不同视图，同时整体可复现
             rng = np.random.default_rng([int(torch.initial_seed()) % (2 ** 32), int(index)])
             clean, noisy = augment_pair(clean, noisy, rng)
-        return {
+        item = {
             'clean': torch.from_numpy(np.ascontiguousarray(clean)),
             'noisy': torch.from_numpy(np.ascontiguousarray(noisy)),
-            'sir_db': torch.tensor(s['sir_db'], dtype=torch.float32),
-            'snr_db': torch.tensor(s['snr_db'], dtype=torch.float32),
-            'interference_type': torch.tensor(s['interference_type'], dtype=torch.long),
+            'sir_db': torch.tensor(sir_db, dtype=torch.float32),
+            'snr_db': torch.tensor(snr_db, dtype=torch.float32),
+            'interference_type': torch.tensor(itype, dtype=torch.long),
             'modulation': torch.tensor(s['modulation'], dtype=torch.long),
             'symbols': torch.from_numpy(s['symbols']),
-            'demod': torch.from_numpy(s['demod']),
+            'demod': torch.from_numpy(np.ascontiguousarray(demod)),
             'clean_id': torch.tensor(s['clean_id'], dtype=torch.long),
             'sample_index': torch.tensor(index, dtype=torch.long),
         }
+        if self.return_aux:
+            item['interf'] = torch.from_numpy(np.ascontiguousarray(interf))
+            item['attrs'] = torch.from_numpy(((np.asarray(attrs, np.float32) - self.attr_mean) / self.attr_std).astype(np.float32))
+        return item
 
     def summary(self):
         """各 (类型, 调制) 的样本数，便于核对。"""

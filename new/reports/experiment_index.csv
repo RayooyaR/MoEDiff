@@ -1,0 +1,140 @@
+﻿run,model_type,experts,router,backbone,cond_mode,data,train_types,holdout,seed,train_per_cell,augment,epochs,ddim_steps,noise_mode,amp,params,eval_files
+ab_alpha,moe_diffmic,FD MS TF TD,,dit,xattn,v2,all,,42,,none,12,20,with,none,,
+ab_none,moe_diffmic,FD MS TF TD,,dit,xattn,v2,all,,42,,none,12,20,with,none,,
+anc_cnn_A,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,91,25,with,bf16,1594498,test_avg8
+anc_tf_A,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,159,25,with,bf16,,
+base_p100_s42_f0,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,2,3,with,bf16,1594498,
+base_p100_s42_f1,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,2,3,with,bf16,1594498,
+base_p100_s43_f0,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,1,none,2,3,with,bf16,1594498,
+base_p100_s43_f1,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,1,none,2,3,with,bf16,1594498,
+base_p100_s44_f0,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,44,1,none,2,3,with,bf16,1594498,
+base_p100_s44_f1,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,44,1,none,2,3,with,bf16,1594498,
+base_p10_s42_f0,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,2,3,with,bf16,1594498,
+base_p10_s42_f1,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,2,3,with,bf16,1594498,
+base_p10_s43_f0,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,1,none,2,3,with,bf16,1594498,
+base_p10_s43_f1,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,1,none,2,3,with,bf16,1594498,
+base_p30_s42_f0,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,2,3,with,bf16,1594498,
+base_p30_s42_f1,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,2,3,with,bf16,1594498,
+base_p30_s43_f0,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,1,none,2,3,with,bf16,1594498,
+base_p30_s43_f1,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,1,none,2,3,with,bf16,1594498,
+ccir_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v3b_ccir,all,,42,,none,100,25,with,none,,test val_z10 val_z100 val_z30 val_z300
+ccir_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v3b_ccir,all,,42,,none,100,25,with,none,,test val_g0.5 val_g0.75 val_g1.0 val_g1.5 val_g2.0 val_g3.0
+ccir_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v3b_ccir,all,,42,,none,100,25,with,none,,test test_det
+ccir_moe_long,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v3b_ccir,all,,42,,none,300,25,with,none,,test test_det
+ccir_nomoe,moe_diffmic,none,legacy,dit,xattn,v3b_ccir,all,,42,,none,100,25,with,none,,test test_det
+ccir_nomoe_long,moe_diffmic,none,legacy,dit,xattn,v3b_ccir,all,,42,,none,300,25,with,none,,test test_det
+ef_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v5_effects,all,,42,,none,100,25,with,none,,test test_ood
+ef_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v5_effects,all,,42,,none,100,25,with,none,,test test_avg8 test_ood test_ood_avg8 val_tune10 val_tune100 val_tune30
+ef_dit,moe_diffmic,none,legacy,dit,xattn,v5_effects,all,,42,,none,100,25,with,none,,test test_avg8 test_det test_ood test_ood_avg8 test_ood_det
+ef_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v5_effects,all,,42,,none,100,25,with,none,,test test_avg8 test_ood test_ood_avg8 val_tune0.5 val_tune0.75 val_tune1
+ef_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v5_effects,all,,42,,none,100,25,with,none,,test test_avg8 test_det test_ood test_ood_avg8 test_ood_det
+exp_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,all,,42,,none,100,25,with,none,,test test_ood
+exp_diffcom_1d,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,all,,42,,none,100,25,with,none,,test test_ood val_z1 val_z10 val_z100 val_z3 val_z30 val_zd10 val_zd100 val_zd30
+exp_icdm_1d,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,all,,42,,none,100,25,with,none,,test test_ood val_g0.1 val_g0.25 val_g0.5 val_g0.75 val_g1.0 val_g2.0 val_gd0.25 val_gd0.35 val_gd0.5 val_gd0.75 val_gd1.0 val_gd1.5
+exp_moe_legacy,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,all,,42,,none,100,25,with,none,,test test_avg8 test_det test_ood test_ood_avg8 test_ood_det
+exp_moe_prior,moe_diffmic,FD MS TF TD,prior,dit,xattn,v2,all,,42,,none,100,25,with,none,,test test_avg8 test_det test_ood test_ood_avg8 test_ood_det
+exp_nomoe,moe_diffmic,none,legacy,dit,xattn,v2,all,,42,,none,100,25,with,none,,test test_avg8 test_det test_ood test_ood_avg8 test_ood_det
+fs_K10_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,True,150,25,with,none,,test
+fs_K10_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,True,150,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+fs_K10_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,True,150,25,with,none,,test test_avg8 test_det
+fs_K10_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,True,150,25,with,none,,test test_avg8 val_tune0.5 val_tune0.75 val_tune1
+fs_K10_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,True,150,25,with,none,,test test_avg8 test_det
+fs_K10_na_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,none,150,25,with,none,,test
+fs_K10_na_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,none,150,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+fs_K10_na_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,none,150,25,with,none,,test test_avg8 test_det
+fs_K10_na_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,none,150,25,with,none,,test test_avg8 val_tune0.5 val_tune0.75 val_tune1
+fs_K10_na_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,10,none,150,25,with,none,,test test_avg8 test_det
+fs_K1_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,True,150,25,with,none,,test
+fs_K1_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,True,150,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+fs_K1_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,True,150,25,with,none,,test test_avg8 test_det
+fs_K1_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,True,150,25,with,none,,test test_avg8 val_tune0.5 val_tune0.75 val_tune1
+fs_K1_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,True,150,25,with,none,,test test_avg8 test_det
+fs_K1_na_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,150,25,with,none,,test
+fs_K1_na_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,150,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+fs_K1_na_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,150,25,with,none,,test test_avg8 test_det
+fs_K1_na_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,150,25,with,none,,test test_avg8 val_tune0.25 val_tune0.5 val_tune0.75 val_tune1
+fs_K1_na_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,1,none,150,25,with,none,,test test_avg8 test_det
+fs_K5_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,True,150,25,with,none,,test
+fs_K5_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,True,150,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+fs_K5_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,True,150,25,with,none,,test test_avg8 test_det
+fs_K5_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,True,150,25,with,none,,test test_avg8 val_tune0.5 val_tune0.75 val_tune1
+fs_K5_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,True,150,25,with,none,,test test_avg8 test_det
+fs_K5_na_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,none,150,25,with,none,,test
+fs_K5_na_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,none,150,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+fs_K5_na_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,none,150,25,with,none,,test test_avg8 test_det
+fs_K5_na_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,none,150,25,with,none,,test test_avg8 val_tune0.5 val_tune0.75 val_tune1
+fs_K5_na_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,5,none,150,25,with,none,,test test_avg8 test_det
+hard_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v3_hard,all,,42,,none,100,25,with,none,,test
+hardb_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v3b_ccir,all,,42,,none,100,25,with,none,,test
+l1_bf16,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,30,25,with,bf16,,
+l1_fp32,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,30,25,with,none,,
+l2_cnn_bf16,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,100,25,with,bf16,,test
+l2_tf_bf16_s42,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,bf16,,test_avg8
+l2_tf_bf16_s43,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,43,,none,160,25,with,bf16,,test_avg8
+l2b_tf_bf16_s44,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,44,,none,160,25,with,bf16,,test_avg8
+l2b_tf_fp32_s43,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,43,,none,160,25,with,none,,test_avg8
+san_adaln,moe_diffmic,TF,legacy,dit,adaln,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7483369,
+san_dual_attr,moe_diffmic,FD MS TF TD,dual,dit,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,8031663,
+san_dw128,moe_diffmic,TF,legacy,diffwave,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,4045027,
+san_dw128_lr1e3,moe_diffmic,TF,legacy,diffwave,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,4045027,
+san_film,moe_diffmic,TF,legacy,dit,film,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7943913,
+san_four,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7818445,
+san_generic4,moe_diffmic,GN GN2 GN3 GN4,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7521964,
+san_shared4,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7976653,
+san_tf,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7351785,
+san_tok16,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7483113,
+san_unet48,moe_diffmic,TF,legacy,unet1d,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7093315,
+san_unet48_lr1e3,moe_diffmic,TF,legacy,unet1d,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7093315,
+san_unet48_lr2e3,moe_diffmic,TF,legacy,unet1d,xattn,v2,ST MT NB WB PL,,42,,none,20,25,with,bf16,7093315,
+v4_cnn_all,cnn,FD MS TF TD,legacy,dit,xattn,v4_digital,all,,42,,none,100,25,with,none,,test
+v4_hf_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v4_digital,CCIR OFDM BURST ACI,,42,,none,100,25,with,none,,test
+v4_hf_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v4_digital,CCIR OFDM BURST ACI,,42,,none,125,25,with,none,,test test_det
+v4_ho_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v4_digital,CCIR FSK BURST ACI,,42,,none,100,25,with,none,,test
+v4_ho_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v4_digital,CCIR FSK BURST ACI,,42,,none,125,25,with,none,,test test_det
+v4_moe_all,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v4_digital,all,,42,,none,100,25,with,none,,test test_det
+zs1_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,100,25,with,none,,test
+zs1_cnnL,cnn,FD MS TF TD,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,100,50,with,none,,test
+zs1_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+zs1_dit,moe_diffmic,none,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test test_avg8 test_det
+zs1_ditL,moe_diffmic,none,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test test_avg8 test_det
+zs1_dreg,dit_reg,none,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test
+zs1_ex_TF,moe_diffmic,TF,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test test_avg8
+zs1_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test test_avg8 val_tune0.5 val_tune0.75 val_tune1
+zs1_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test test_avg8 test_det
+zs1_mreg,dit_reg,FD MS TF TD,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test
+zs1_mvcnn,mv_cnn,FD MS TF TD,legacy,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,100,50,with,none,,test
+zs1_prior,moe_diffmic,FD MS TF TD,prior,dit,xattn,v2,NB WB LFM NFM RFM PL,,42,,none,130,25,with,none,,test test_det
+zs2_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,100,25,with,none,,test
+zs2_cnnL,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,100,50,with,none,,test
+zs2_cnn_s43,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,,none,100,25,with,none,,test
+zs2_cnn_s44,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,44,,none,100,25,with,none,,test
+zs2_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune30
+zs2_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8 test_det
+zs2_ditL,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8 test_det
+zs2_dreg,dit_reg,none,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test
+zs2_ex_FD,moe_diffmic,FD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8
+zs2_ex_TD,moe_diffmic,TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8
+zs2_ex_TF,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8
+zs2_ex_TF_s43,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,43,,none,160,25,with,none,,test test_avg8
+zs2_ex_TF_s44,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB PL,,44,,none,160,25,with,none,,test test_avg8
+zs2_ex_noTF,moe_diffmic,FD MS TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8
+zs2_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8 val_tune0.25 val_tune0.5 val_tune0.75 val_tune1
+zs2_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_avg8 test_det
+zs2_moe_s43,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,43,,none,160,25,with,none,,test test_avg8 test_det
+zs2_moe_s44,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,44,,none,160,25,with,none,,test test_avg8 test_det
+zs2_mreg,dit_reg,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test
+zs2_mvcnn,mv_cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB PL,,42,,none,100,50,with,none,,test
+zs2_prior,moe_diffmic,FD MS TF TD,prior,dit,xattn,v2,ST MT NB WB PL,,42,,none,160,25,with,none,,test test_det
+zs3_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,100,25,with,none,,test
+zs3_cnnL,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,100,50,with,none,,test
+zs3_diffcom,diffcom_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test test_avg8 val_tune10 val_tune100 val_tune3.33333 val_tune30
+zs3_dit,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test test_avg8 test_det
+zs3_ditL,moe_diffmic,none,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test test_avg8 test_det
+zs3_dreg,dit_reg,none,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test
+zs3_ex_TF,moe_diffmic,TF,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test test_avg8
+zs3_icdm,icdm_1d,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test test_avg8 val_tune0.5 val_tune0.75 val_tune1
+zs3_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test test_avg8 test_det
+zs3_mreg,dit_reg,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,115,25,with,none,,test
+zs3_mvcnn,mv_cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT NB WB LFM NFM RFM,,42,,none,100,50,with,none,,test
+zs4_cnn,cnn,FD MS TF TD,legacy,dit,xattn,v2,ST MT PL LFM NFM RFM,,42,,none,100,25,with,none,,test
+zs4_moe,moe_diffmic,FD MS TF TD,legacy,dit,xattn,v2,ST MT PL LFM NFM RFM,,42,,none,133,25,with,none,,test test_det

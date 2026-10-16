@@ -1,0 +1,211 @@
+{
+"profile": "pre",
+"machine": "A",
+"gpus": 1,
+"jobs": [
+{
+"name": "make_pool_10k",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY ../gen/make_clean_pool.py --n 10000 --out ../data/clean_pool/pool_10k.npz --check",
+"cost": 0.1,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "PRE"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "pre_c10k",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY pretrain_clean.py --exp_name pre_c10k --pretrain_pool ../data/clean_pool/pool_10k.npz --pretrain_steps 40000 --seed 42 --model_type moe_diffmic --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --amp bf16 --lr 3e-4 --batch_size 32 --new_types ST MT NB WB PL",
+"cost": 1.6,
+"tier": 1,
+"deps": [
+"make_pool_10k"
+],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"exp": "PRE",
+"cfg": "pre_c10k"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "p1_p10_s42",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name p1_p10_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --init_from pre_c10k && $PY evaluate_new.py --runs p1_p10_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/p1_p10_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [
+"pre_c10k"
+],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "PRE",
+"cfg": "P1"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "p1_p10_s43",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name p1_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --init_from pre_c10k && $PY evaluate_new.py --runs p1_p10_s43 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/p1_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [
+"pre_c10k"
+],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "PRE",
+"cfg": "P1"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "p1_p10_s44",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name p1_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 44 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --init_from pre_c10k && $PY evaluate_new.py --runs p1_p10_s44 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/p1_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [
+"pre_c10k"
+],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "PRE",
+"cfg": "P1"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "pre_t420_s42",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY pretrain_clean.py --exp_name pre_t420_s42 --pretrain_pool train420 --pretrain_steps 40000 --train_per_cell 4 --seed 42 --model_type moe_diffmic --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --amp bf16 --lr 3e-4 --batch_size 32 --new_types ST MT NB WB PL",
+"cost": 1.6,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"exp": "PRE",
+"cfg": "pre_t420",
+"seed": 42
+},
+"deps_mode": "all_done"
+},
+{
+"name": "p0_p10_s42",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name p0_p10_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --init_from pre_t420_s42 && $PY evaluate_new.py --runs p0_p10_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/p0_p10_s42/best_model.pth",
+"cost": 0.8,
+"tier": 2,
+"deps": [
+"pre_t420_s42"
+],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "PRE",
+"cfg": "P0"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "pre_t420_s43",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY pretrain_clean.py --exp_name pre_t420_s43 --pretrain_pool train420 --pretrain_steps 40000 --train_per_cell 4 --seed 43 --model_type moe_diffmic --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --amp bf16 --lr 3e-4 --batch_size 32 --new_types ST MT NB WB PL",
+"cost": 1.6,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"exp": "PRE",
+"cfg": "pre_t420",
+"seed": 43
+},
+"deps_mode": "all_done"
+},
+{
+"name": "p0_p10_s43",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name p0_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --init_from pre_t420_s43 && $PY evaluate_new.py --runs p0_p10_s43 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/p0_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 2,
+"deps": [
+"pre_t420_s43"
+],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "PRE",
+"cfg": "P0"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "pre_t420_s44",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY pretrain_clean.py --exp_name pre_t420_s44 --pretrain_pool train420 --pretrain_steps 40000 --train_per_cell 4 --seed 44 --model_type moe_diffmic --disable_moe --true_uncond --backbone unet1d --unet_base 64 --cond_mode adaln --amp bf16 --lr 3e-4 --batch_size 32 --new_types ST MT NB WB PL",
+"cost": 1.6,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"exp": "PRE",
+"cfg": "pre_t420",
+"seed": 44
+},
+"deps_mode": "all_done"
+},
+{
+"name": "p0_p10_s44",
+"group": "PRE",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name p0_p10_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 44 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --init_from pre_t420_s44 && $PY evaluate_new.py --runs p0_p10_s44 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/p0_p10_s44/best_model.pth",
+"cost": 0.8,
+"tier": 2,
+"deps": [
+"pre_t420_s44"
+],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "PRE",
+"cfg": "P0"
+},
+"deps_mode": "all_done"
+}
+]
+}

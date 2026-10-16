@@ -269,6 +269,7 @@ class PhysicsCNNBaseline(nn.Module):
 
         if clean is not None:
             # ── 时域 MSE ─────────────────────────────────────────
+            pred, clean = pred.float(), clean.float()      # bf16 自动混合精度下，MSE 与 FFT 一律用 fp32（fp32 下无影响）
             mse_loss = F.mse_loss(pred, clean)
 
             # ── 频域感知损失 ──────────────────────────────────────

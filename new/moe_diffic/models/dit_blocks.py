@@ -47,7 +47,7 @@ class DiTBlock(nn.Module):
             nn.Linear(hidden_size, 9 * hidden_size),
         )
 
-    def forward(self, x, t_cond, moe_cond_seq=None):
+    def forward(self, x, t_cond, moe_cond_seq=None, cond_mask=None):
         # t_cond 引导 adaLN
         adaln_params = self.adaLN(t_cond).chunk(9, dim=1)
         shift_a, scale_a, gate_a = adaln_params[0], adaln_params[1], adaln_params[2]
@@ -63,7 +63,7 @@ class DiTBlock(nn.Module):
         if moe_cond_seq is not None:
             h_c = self.norm_cross(x) * (1 + scale_c.unsqueeze(1)) + shift_c.unsqueeze(1)
             # Query 是隐状态 h_c，Key 和 Value 是专家序列 moe_cond_seq
-            h_c, _ = self.cross_attn(query=h_c, key=moe_cond_seq, value=moe_cond_seq, need_weights=False)
+            h_c, _ = self.cross_attn(query=h_c, key=moe_cond_seq, value=moe_cond_seq, key_padding_mask=cond_mask, need_weights=False)   # cond_mask: True=屏蔽（真正的 Top-K 稀疏）
             x = x + gate_c.unsqueeze(1) * h_c
 
         # 3. MLP
@@ -74,7 +74,7 @@ class DiTBlock(nn.Module):
         return x
 
 class DiTDenoiser1D(nn.Module):
-    def __init__(self, in_channels, out_channels, signal_length, hidden_size, depth, num_heads, mlp_ratio=4.0, patch_size=4):
+    def __init__(self, in_channels, out_channels, signal_length, hidden_size, depth, num_heads, mlp_ratio=4.0, patch_size=4, cond_mode='xattn'):
         super().__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -99,6 +99,13 @@ class DiTDenoiser1D(nn.Module):
         self.norm_final = nn.LayerNorm(hidden_size, elementwise_affine=False, eps=1e-6)
         self.final_linear = nn.Linear(hidden_size, patch_size * out_channels)
         self.final_adaLN = nn.Sequential(nn.SiLU(), nn.Linear(hidden_size, 2 * hidden_size))
+
+        # [exp] 条件注入方式：xattn 为原行为（不新增参数）；film/adaln/none 见 condition_adapter.py
+        self.cond_mode = cond_mode
+        self.adapter = None
+        if cond_mode != 'xattn':
+            from .condition_adapter import ConditionAdapter
+            self.adapter = ConditionAdapter(cond_mode, hidden_size, hidden_size, depth)
 
         self._init_weights(num_patches, hidden_size)
 
@@ -126,14 +133,24 @@ class DiTDenoiser1D(nn.Module):
         nn.init.constant_(self.final_linear.weight, 0)
         nn.init.constant_(self.final_linear.bias, 0)
 
-    def forward(self, x, t, moe_cond_seq=None):
+    def forward(self, x, t, moe_cond_seq=None, cond_mask=None):
         x = self.x_embedder(x).transpose(1, 2) + self.pos_embed  # (B, num_patches, hidden)
         
         t_emb = self.t_embedder(t) # (B, hidden_size)
 
-        for block in self.blocks:
+        g = None
+        if self.adapter is not None:          # [exp] film/adaln/none：条件不走交叉注意力
+            g = self.adapter.prepare(moe_cond_seq, cond_mask)
+            tb = self.adapter.t_bias(g)
+            if tb is not None:
+                t_emb = t_emb + tb
+            moe_cond_seq, cond_mask = None, None
+
+        for i, block in enumerate(self.blocks):
+            if self.adapter is not None:
+                x = self.adapter.film(i, g, x)
             # 分开传递时间步向量 t_emb 与专家序列 moe_cond_seq
-            x = block(x, t_cond=t_emb, moe_cond_seq=moe_cond_seq)
+            x = block(x, t_cond=t_emb, moe_cond_seq=moe_cond_seq, cond_mask=cond_mask)
 
         shift, scale = self.final_adaLN(t_emb).chunk(2, dim=1) # 最终层依然只依赖时间步
         x = self.norm_final(x)

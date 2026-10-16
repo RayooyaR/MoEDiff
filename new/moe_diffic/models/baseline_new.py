@@ -60,12 +60,27 @@ def _compat(d, x0, device):
 
 
 class DiffCom1DBaseline(nn.Module):
-    def __init__(self, config, dps_step_size: float = 1.0):
+    def __init__(self, config, dps_step_size: float = 1.0, warm_start: bool = False, obs_snr_db=None, warm_N: float = 1.0):
         super().__init__()
         self.prior = _UncondPrior(config)
         self.scheduler = create_scheduler(config)
         self.num_timesteps = config.diffusion.timesteps
         self.dps_step_size = float(dps_step_size)
+        # 官方 DiffCom 的热启动（main_diffcom.py:144；noise_schedule.py:46-51，CSNR_adapt_t_start=True）：
+        #   x_init = √ᾱ_{t0}·x_mse + √(1-ᾱ_{t0})·ε，t0 由信道 CSNR 决定；采样只走 [0, t0] 这一段。
+        # 对应到本任务：x_mse = 接收信号 y（H 为恒等，"解码结果"即 y）；官方的 CSNR 是已知系统参数，这里取训练集上 y 相对干净信号的平均 SINR(dB)
+        # （数据集级常数，不使用任何测试样本的真值）。
+        self.warm_start, self.obs_snr_db, self.warm_N = bool(warm_start), obs_snr_db, float(warm_N)
+
+    def warm_t_start(self, ac):
+        """官方公式：DSNR = 5·log10((1+snr)^(1/48))；t0 = (T - #{t: log10SNR_t < DSNR})·N，其中 log10SNR_t = log10(ᾱ_t/(1-ᾱ_t))。"""
+        import math
+        snr = 10 ** (float(self.obs_snr_db) / 10.0)
+        dsnr = math.log10((1 + snr) ** (1 / 48)) * 5
+        log_snr = torch.log10(ac / (1 - ac)).cpu()                     # 随 t 递减
+        n_below = int((log_snr < dsnr).sum())                          # 等价于官方对反转序列做 searchsorted
+        T = ac.numel()
+        return max(1, min(T - 1, int((T - n_below) * self.warm_N)))
 
     def forward(self, x_clean, x_noisy):
         d = _train_dict(self.prior, self.scheduler, x_clean)       # 先验只看干净信号；x_noisy 不参与训练
@@ -76,6 +91,8 @@ class DiffCom1DBaseline(nn.Module):
         sched = self.scheduler
         sched.set_timesteps(min(num_steps or self.num_timesteps, self.num_timesteps), device=device)
         ac = sched.alphas_cumprod.to(device)
+        if self.warm_start:
+            return self._sample_warm(x_noisy, num_steps or 25, ac)
         x_t = init_scale * torch.randn_like(x_noisy)
         for t in sched.timesteps:
             tb = t.expand(x_t.shape[0])
@@ -87,6 +104,29 @@ class DiffCom1DBaseline(nn.Module):
                 resid = (x_noisy - x0).flatten(1).norm(dim=1)       # 逐样本 L2 范数
                 grad = torch.autograd.grad(resid.sum(), x_in)[0]
             x_prev = sched.step(eps.detach(), t, x_t.detach(), eta=0.0).prev_sample
+            x_t = (x_prev - self.dps_step_size * grad).detach()
+        return x_t
+
+    def _sample_warm(self, x_noisy, num_steps, ac):
+        """热启动 DPS：从 t0 起步，在 [0, t0] 上均匀取 num_steps 步（与其它方法同样的网络调用次数），DDIM(η=0) 更新 + 同样的 DPS 引导。"""
+        device = x_noisy.device
+        assert self.obs_snr_db is not None, '热启动需要 obs_snr_db（训练集上 y 相对干净信号的平均 SINR，dB）'
+        t0 = self.warm_t_start(ac)
+        grid = torch.linspace(t0, 0, num_steps + 1, device=device).round().long()      # t0 -> 0
+        a0 = ac[t0]
+        x_t = a0.sqrt() * x_noisy + (1 - a0).sqrt() * torch.randn_like(x_noisy)
+        for i in range(num_steps):
+            t, t_prev = grid[i], grid[i + 1]
+            tb = t.expand(x_t.shape[0])
+            with torch.enable_grad():
+                x_in = x_t.detach().requires_grad_(True)
+                eps = self.prior.eps(x_in, tb)
+                a = ac[t]
+                x0 = (x_in - (1 - a).sqrt() * eps) / a.sqrt()
+                resid = (x_noisy - x0).flatten(1).norm(dim=1)
+                grad = torch.autograd.grad(resid.sum(), x_in)[0]
+            a_prev = ac[t_prev] if i < num_steps - 1 else torch.ones((), device=device)
+            x_prev = a_prev.sqrt() * x0.detach() + (1 - a_prev).sqrt() * eps.detach()
             x_t = (x_prev - self.dps_step_size * grad).detach()
         return x_t
 
@@ -169,6 +209,7 @@ class DiTRegressionBaseline(nn.Module):
 
     def forward(self, x_clean, x_noisy):
         pred, info = self._predict(x_noisy, self.training)
+        pred = pred.float()                                       # bf16 自动混合精度下，损失用 fp32
         mse = torch.nn.functional.mse_loss(pred, x_clean)
         freq = torch.nn.functional.mse_loss(torch.fft.rfft(pred, dim=-1, norm='ortho').abs(), torch.fft.rfft(x_clean, dim=-1, norm='ortho').abs())
         bal = info['balance_loss'] if torch.is_tensor(info.get('balance_loss')) else pred.new_zeros(())
@@ -220,6 +261,7 @@ class MultiViewCNNBaseline(nn.Module):
 
     def forward(self, x_clean, x_noisy):
         pred, info = self._predict(x_noisy, self.training)
+        pred = pred.float()                                       # bf16 自动混合精度下，损失用 fp32
         mse = torch.nn.functional.mse_loss(pred, x_clean)
         freq = torch.nn.functional.mse_loss(torch.fft.rfft(pred, dim=-1, norm='ortho').abs(), torch.fft.rfft(x_clean, dim=-1, norm='ortho').abs())
         bal = info['balance_loss'] if torch.is_tensor(info.get('balance_loss')) else pred.new_zeros(())
@@ -231,3 +273,13 @@ class MultiViewCNNBaseline(nn.Module):
     @torch.no_grad()
     def sample(self, x_noisy, num_steps=None, return_intermediates=False, **kw):
         return self._predict(x_noisy, False)[0]
+
+
+def estimate_obs_snr_db(samples):
+    """训练样本（含 'clean'、'noisy' 数组）上 y 相对干净信号的平均 SINR(dB)：10·log10(P_clean/P_(y-clean))，逐样本取 dB 后平均。"""
+    import numpy as np
+    v = []
+    for s_ in samples:
+        c, n = np.asarray(s_['clean'], dtype=np.float64), np.asarray(s_['noisy'], dtype=np.float64)
+        v.append(10 * np.log10((c ** 2).sum() / (((n - c) ** 2).sum() + 1e-20) + 1e-20))
+    return float(np.mean(v))

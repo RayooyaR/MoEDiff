@@ -97,13 +97,15 @@ class PhysicsMoESampler:
     def _ddim_sample(self, x_noisy, num_steps):
         device = x_noisy.device
         batch_size, _, signal_length = x_noisy.shape
-        moe_cond, _ = self.model.compute_moe_condition(x_noisy, training=False)
+        moe_cond, moe_info = self.model.compute_moe_condition(x_noisy, training=False)
+        cond_mask = moe_info.get('cond_mask') if isinstance(moe_info, dict) else None
+        extra = self.model.cond_extra(x_noisy)
         self.scheduler.set_timesteps(num_steps, device=device)
         x_t = self.init_scale * torch.randn(batch_size, 2, signal_length, device=device)
 
         for t in self.scheduler.timesteps:
             t_batch = t.expand(batch_size)
-            noise_pred = self.model.denoiser(torch.cat([x_t, x_noisy], dim=1), t_batch, moe_cond)
+            noise_pred = self.model.denoise(x_t, x_noisy, t_batch, moe_cond, cond_mask, extra)
             x_t = self.scheduler.step(
                 model_output=noise_pred,
                 timestep=t,

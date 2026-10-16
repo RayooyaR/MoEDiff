@@ -86,12 +86,14 @@ class MS_Expert(nn.Module):
 class TF_Expert(nn.Module):
 
     def __init__(self, in_channels=2, signal_length=2560, n_fft=128, hop_length=32,
-                 hidden_channels=128, internal_n_fft=None, feature_dim=256):
+                 hidden_channels=128, internal_n_fft=None, feature_dim=256, n_tokens=1, bands=4):
         super().__init__()
         self.in_channels = in_channels
         self.signal_length = signal_length
         self.internal_n_fft = n_fft
         self.internal_hop = hop_length
+        # [exp] 实验 8：n_tokens>1 时输出 n_tokens 个保留时间位置的局部 token（频率方向池化成 bands 个子带），默认 1 与原行为一致
+        self.n_tokens, self.bands = int(n_tokens), int(bands)
 
         self.mask_cnn = nn.Sequential(
             nn.Conv2d(in_channels, hidden_channels, kernel_size=3, padding=1),
@@ -108,6 +110,13 @@ class TF_Expert(nn.Module):
         self.register_buffer("stft_window", torch.hann_window(self.internal_n_fft))
         self.pool2d = nn.AdaptiveAvgPool2d(1)
         self.proj = nn.Linear(hidden_channels, feature_dim)
+        if self.n_tokens > 1:
+            self.tok_pool = nn.AdaptiveAvgPool2d((self.bands, self.n_tokens))
+            self.tok_proj = nn.Linear(hidden_channels * self.bands, feature_dim)
+            pos = torch.arange(self.n_tokens, dtype=torch.float32)[:, None]
+            div = torch.exp(torch.arange(0, feature_dim, 2, dtype=torch.float32) * (-torch.log(torch.tensor(10000.0)) / feature_dim))
+            pe = torch.zeros(self.n_tokens, feature_dim); pe[:, 0::2] = torch.sin(pos * div); pe[:, 1::2] = torch.cos(pos * div)
+            self.register_buffer('tok_pos', pe, persistent=False)
 
     def forward(self, stft_feat, time_feat):
         del stft_feat
@@ -134,6 +143,10 @@ class TF_Expert(nn.Module):
             mag = torch.abs(stft_internal)                  # (B, 2, F, T)
 
         h = self.mask_cnn(mag)                              # (B, H, F, T)
+        if self.n_tokens > 1:                               # [exp] 局部 TF token：(B, M, D)，带时间位置编码；每个 token 对应一段时间窗
+            z = self.tok_pool(h)                            # (B, H, bands, M)
+            z = z.permute(0, 3, 1, 2).reshape(bsz, self.n_tokens, -1)
+            return self.tok_proj(z) + self.tok_pos.unsqueeze(0)
         pooled = self.pool2d(h).view(bsz, -1)              # (B, H)
         feat = self.proj(pooled)                            # (B, D)
         return feat
@@ -187,6 +200,23 @@ class TD_Expert(nn.Module):
         return feat
 
 
+class GenericExpert(nn.Module):
+    """[exp] 非物理的“通用”1D CNN 专家（控制实验）：与物理专家同样接受原始 I/Q，输出同维特征，但不使用任何域变换（FFT/STFT/多尺度）。
+    用于检验“物理域表征本身”与“多一个同规模分支/参数量”的区别（实验 1、2 的对照）。"""
+
+    def __init__(self, in_channels=2, signal_length=2560, hidden_channels=96, feature_dim=256):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv1d(in_channels, hidden_channels, 7, stride=2, padding=3), nn.GroupNorm(4, hidden_channels), nn.SiLU(),
+            nn.Conv1d(hidden_channels, hidden_channels, 5, stride=2, padding=2), nn.GroupNorm(4, hidden_channels), nn.SiLU(),
+            nn.Conv1d(hidden_channels, hidden_channels, 3, stride=2, padding=1), nn.GroupNorm(4, hidden_channels), nn.SiLU())
+        self.proj = nn.Linear(2 * hidden_channels, feature_dim)
+
+    def forward(self, time_feat):
+        h = self.net(time_feat)
+        return self.proj(torch.cat([h.mean(-1), h.amax(-1)], dim=1))
+
+
 class ExpertType:
     """Expert type constants."""
 
@@ -194,6 +224,9 @@ class ExpertType:
     MULTI_SCALE = "MS"
     TIME_FREQUENCY = "TF"
     TIME_DOMAIN = "TD"
+    GENERIC = ("GN", "GN2", "GN3", "GN4")      # [exp] 通用 CNN 专家（控制）
+    CYCLO = "CYC"                              # [exp] 实验 M2：循环平稳专家
+    CYCLO_CONTROL = "CYX"                      # [exp] M2 对照：离循环 α 的同流程专家
 
 
 DOMAIN_EXPERT_SPECS = {
@@ -219,7 +252,14 @@ DOMAIN_EXPERT_SPECS = {
     },
 }
 
-ALL_DOMAIN_EXPERT_NAMES = list(DOMAIN_EXPERT_SPECS.keys())
+from .cyclo_expert import CycloExpert, CycloControlExpert  # noqa: E402
+DOMAIN_EXPERT_SPECS["CYC"] = {"class": CycloExpert, "description": "cyclostationary (M2)", "input_keys": ["time_feat"]}
+DOMAIN_EXPERT_SPECS["CYX"] = {"class": CycloControlExpert, "description": "off-cycle control (M2)", "input_keys": ["time_feat"]}
+
+for _g in ExpertType.GENERIC:
+    DOMAIN_EXPERT_SPECS[_g] = {"class": GenericExpert, "description": "generic CNN (control)", "input_keys": ["time_feat"]}
+
+ALL_DOMAIN_EXPERT_NAMES = [k for k in DOMAIN_EXPERT_SPECS.keys() if k not in ExpertType.GENERIC and k not in ("CYC", "CYX")]     # 默认四个物理专家，GN* 仅显式指定时使用
 
 
 

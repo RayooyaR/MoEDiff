@@ -1,0 +1,83 @@
+{
+"profile": "aug4",
+"machine": "A",
+"gpus": 1,
+"jobs": [
+{
+"name": "tfr_p10_s42",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name tfr_p10_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 42 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs tfr_p10_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/tfr_p10_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "AUG",
+"cfg": "tf_remix",
+"size": 10
+},
+"deps_mode": "all_done"
+},
+{
+"name": "orr_p10_s42",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name orr_p10_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 42 --disable_moe --oracle_cond type_attrs --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs orr_p10_s42 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/orr_p10_s42/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "AUG",
+"cfg": "oracle_remix",
+"size": 10
+},
+"deps_mode": "all_done"
+},
+{
+"name": "tfr_p10_s43",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name tfr_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --experts TF --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs tfr_p10_s43 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/tfr_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "AUG",
+"cfg": "tf_remix",
+"size": 10
+},
+"deps_mode": "all_done"
+},
+{
+"name": "orr_p10_s43",
+"group": "AUG",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name orr_p10_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --disable_moe --oracle_cond type_attrs --backbone unet1d --unet_base 64 --cond_mode adaln --phys_aug remix && $PY evaluate_new.py --runs orr_p10_s43 --splits test test_ood --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/orr_p10_s43/best_model.pth",
+"cost": 0.8,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "AUG",
+"cfg": "oracle_remix",
+"size": 10
+},
+"deps_mode": "all_done"
+}
+]
+}

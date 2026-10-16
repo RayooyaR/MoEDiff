@@ -96,7 +96,7 @@ class PriorGuidedRouter(nn.Module):
         return torch.cat([t, s, f], dim=1)
 
     def forward(self, x, training=True):
-        logits = self.head(self.embed(x))                                    # (B, K)，供路由监督使用（无噪声）
+        logits = self.head(self.embed(x)).float()                            # (B, K)，供路由监督使用（无噪声）；bf16 下转 fp32
         probs = F.softmax(logits, dim=-1)
         noisy = logits + self.noise_std * torch.randn_like(logits) if (training and self.noise_std > 0) else logits
         topv, topi = noisy.topk(self.top_k, dim=-1)

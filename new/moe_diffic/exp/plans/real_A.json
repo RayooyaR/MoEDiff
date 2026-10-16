@@ -1,0 +1,968 @@
+{
+"profile": "real",
+"machine": "A",
+"gpus": 1,
+"jobs": [
+{
+"name": "sys_tests_A",
+"group": "SYS",
+"machine": "A",
+"cmd": "mkdir -p exp_state && (cd tests && $PY run_all.py --fast) > exp_state/sys_tests_A.log 2>&1; true",
+"cost": 0.2,
+"tier": 0,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "anc_tf_A",
+"group": "ANCHOR",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name anc_tf_A --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --epochs 159 --seed 42 --experts TF && $PY evaluate_new.py --runs anc_tf_A --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/anc_tf_A/best_model.pth",
+"cost": 0.75,
+"tier": 0,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"cfg": "anchor_tf",
+"exp": "ANCHOR",
+"machine": "A"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "anc_cnn_A",
+"group": "ANCHOR",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name anc_cnn_A --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --epochs 91 --seed 42 --cnn_base_ch 32 && $PY evaluate_new.py --runs anc_cnn_A --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/anc_cnn_A/best_model.pth",
+"cost": 0.08,
+"tier": 0,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 42,
+"cfg": "anchor_cnn",
+"exp": "ANCHOR",
+"machine": "A"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "p0_audit",
+"group": "P0",
+"machine": "A",
+"cmd": "$PY audit_baseline.py --repro zs2_ex_TF_s44",
+"cost": 0.9,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "P0"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "e13_sampling",
+"group": "E13",
+"machine": "A",
+"cmd": "$PY sampling_ablation.py --runs zs2_ex_TF_s44 zs2_dit --steps 10 25 50 100 --avg 1 8 --seeds 2 --stride 8 --out ../reports/e13_sampling_ablation.csv",
+"cost": 2.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E13"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "model_costs",
+"group": "E7",
+"machine": "A",
+"cmd": "$PY model_costs.py --out ../reports/model_costs.csv",
+"cost": 0.3,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E7"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "e12_est",
+"group": "E12",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name e12_est --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --epochs 100 --seed 42 --target interf --cnn_base_ch 32 && $PY evaluate_new.py --runs e12_est --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16 ",
+"cost": 0.08,
+"tier": 2,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 42,
+"cfg": "e12_est",
+"exp": "E12"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "e12_guid_val",
+"group": "E12",
+"machine": "A",
+"cmd": "$PY eval_guidance.py --run zs2_ex_TF_s44 --est e12_est --w_obs 0 0.3 1 3 --w_band 0 1 --split val --stride 2 --ddim_steps 25 --out ../reports/e12_val.json",
+"cost": 1.0,
+"tier": 2,
+"deps": [
+"e12_est"
+],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E12"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "e12_select",
+"group": "E12",
+"machine": "A",
+"cmd": "$PY exp/selection.py e12",
+"cost": 0.01,
+"tier": 2,
+"deps": [
+"e12_guid_val"
+],
+"skip_if": null,
+"meta": {
+"kind": "select"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "e12_guid_test",
+"group": "E12",
+"machine": "A",
+"cmd": "$PY eval_guidance.py --run zs2_ex_TF_s44 --est e12_est --w_obs {CAND:e12_w_obs} --w_band {CAND:e12_w_band} --split test --stride 2 --ddim_steps 25 --out ../reports/e12_test.json",
+"cost": 1.0,
+"tier": 2,
+"deps": [
+"e12_select"
+],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E12"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_cnn_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_cnn_s42 --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 65 --seed 42 --cnn_base_ch 32 && $PY evaluate_new.py --runs lo_LFM_cnn_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16 ",
+"cost": 0.08,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 42,
+"exp": "E6",
+"cfg": "cnn",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_cnn_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_cnn_s43 --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 65 --seed 43 --cnn_base_ch 32 && $PY evaluate_new.py --runs lo_LFM_cnn_s43 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_cnn_s43/best_model.pth",
+"cost": 0.08,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 43,
+"exp": "E6",
+"cfg": "cnn",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_cnn_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_cnn_s44 --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 65 --seed 44 --cnn_base_ch 32 && $PY evaluate_new.py --runs lo_LFM_cnn_s44 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_cnn_s44/best_model.pth",
+"cost": 0.08,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 44,
+"exp": "E6",
+"cfg": "cnn",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_dit0_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_dit0_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 42 --disable_moe --true_uncond && $PY evaluate_new.py --runs lo_LFM_dit0_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_dit0_s42/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dit0",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_tf_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 42 --experts TF && $PY evaluate_new.py --runs lo_LFM_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 ",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "tf",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_tf_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_tf_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 43 --experts TF && $PY evaluate_new.py --runs lo_LFM_tf_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_tf_s43/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "E6",
+"cfg": "tf",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_tf_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_tf_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 44 --experts TF && $PY evaluate_new.py --runs lo_LFM_tf_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_tf_s44/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "E6",
+"cfg": "tf",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_static4_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_static4_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 42 --fusion uniform && $PY evaluate_new.py --runs lo_LFM_static4_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_static4_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "static4",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_legacy4_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_legacy4_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 42  && $PY evaluate_new.py --runs lo_LFM_legacy4_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_legacy4_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "legacy4",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_legacy4_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_legacy4_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 43  && $PY evaluate_new.py --runs lo_LFM_legacy4_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_legacy4_s43/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "E6",
+"cfg": "legacy4",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_legacy4_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_legacy4_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 44  && $PY evaluate_new.py --runs lo_LFM_legacy4_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_legacy4_s44/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "E6",
+"cfg": "legacy4",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_dual_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_dual_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 42 --router_type dual && $PY evaluate_new.py --runs lo_LFM_dual_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_dual_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dual",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_dual_attr_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_dual_attr_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 42 --router_type dual --attr_mode joint && $PY evaluate_new.py --runs lo_LFM_dual_attr_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 ",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dual_attr",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_dual_attr_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_dual_attr_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 43 --router_type dual --attr_mode joint && $PY evaluate_new.py --runs lo_LFM_dual_attr_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_dual_attr_s43/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "E6",
+"cfg": "dual_attr",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_dual_attr_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_dual_attr_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 44 --router_type dual --attr_mode joint && $PY evaluate_new.py --runs lo_LFM_dual_attr_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_dual_attr_s44/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "E6",
+"cfg": "dual_attr",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_dual_shared_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_LFM_dual_shared_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout LFM --epochs 114 --seed 42 --router_type dual --shared_expert && $PY evaluate_new.py --runs lo_LFM_dual_shared_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_LFM_dual_shared_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dual_shared",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_adapt_tf",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY loto_adapt.py --run lo_LFM_tf_s42 --holdout LFM --cnn_run lo_LFM_cnn_s42 --out runs/lo_LFM_tf_s42/loto_adapt.json",
+"cost": 0.3,
+"tier": 1,
+"deps": [
+"lo_LFM_tf_s42",
+"lo_LFM_cnn_s42"
+],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E6",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_clean_tf",
+"group": "E6",
+"machine": "A",
+"cmd": "rm -f runs/lo_LFM_tf_s42/best_model.pth",
+"cost": 0.001,
+"tier": 1,
+"deps": [
+"lo_LFM_adapt_tf"
+],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_adapt_dual_attr",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY loto_adapt.py --run lo_LFM_dual_attr_s42 --holdout LFM --cnn_run lo_LFM_cnn_s42 --out runs/lo_LFM_dual_attr_s42/loto_adapt.json",
+"cost": 0.3,
+"tier": 1,
+"deps": [
+"lo_LFM_dual_attr_s42",
+"lo_LFM_cnn_s42"
+],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E6",
+"holdout": "LFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_clean_dual_attr",
+"group": "E6",
+"machine": "A",
+"cmd": "rm -f runs/lo_LFM_dual_attr_s42/best_model.pth",
+"cost": 0.001,
+"tier": 1,
+"deps": [
+"lo_LFM_adapt_dual_attr"
+],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_LFM_clean_cnn",
+"group": "E6",
+"machine": "A",
+"cmd": "rm -f runs/lo_LFM_cnn_s42/best_model.pth",
+"cost": 0.001,
+"tier": 1,
+"deps": [
+"lo_LFM_adapt_tf",
+"lo_LFM_adapt_dual_attr"
+],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_cnn_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_cnn_s42 --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 65 --seed 42 --cnn_base_ch 32 && $PY evaluate_new.py --runs lo_RFM_cnn_s42 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16 ",
+"cost": 0.08,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 42,
+"exp": "E6",
+"cfg": "cnn",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_cnn_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_cnn_s43 --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 65 --seed 43 --cnn_base_ch 32 && $PY evaluate_new.py --runs lo_RFM_cnn_s43 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_cnn_s43/best_model.pth",
+"cost": 0.08,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 43,
+"exp": "E6",
+"cfg": "cnn",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_cnn_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_cnn_s44 --model_type cnn --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 65 --seed 44 --cnn_base_ch 32 && $PY evaluate_new.py --runs lo_RFM_cnn_s44 --splits test --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_cnn_s44/best_model.pth",
+"cost": 0.08,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "cnn",
+"seed": 44,
+"exp": "E6",
+"cfg": "cnn",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_dit0_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_dit0_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42 --disable_moe --true_uncond && $PY evaluate_new.py --runs lo_RFM_dit0_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_dit0_s42/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dit0",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_tf_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_tf_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42 --experts TF && $PY evaluate_new.py --runs lo_RFM_tf_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 ",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "tf",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_tf_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_tf_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 43 --experts TF && $PY evaluate_new.py --runs lo_RFM_tf_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_tf_s43/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "E6",
+"cfg": "tf",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_tf_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_tf_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 44 --experts TF && $PY evaluate_new.py --runs lo_RFM_tf_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_tf_s44/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "E6",
+"cfg": "tf",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_static4_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_static4_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42 --fusion uniform && $PY evaluate_new.py --runs lo_RFM_static4_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_static4_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "static4",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_legacy4_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_legacy4_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42  && $PY evaluate_new.py --runs lo_RFM_legacy4_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_legacy4_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "legacy4",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_legacy4_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_legacy4_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 43  && $PY evaluate_new.py --runs lo_RFM_legacy4_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_legacy4_s43/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "E6",
+"cfg": "legacy4",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_legacy4_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_legacy4_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 44  && $PY evaluate_new.py --runs lo_RFM_legacy4_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_legacy4_s44/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "E6",
+"cfg": "legacy4",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_dual_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_dual_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42 --router_type dual && $PY evaluate_new.py --runs lo_RFM_dual_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_dual_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dual",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_dual_attr_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_dual_attr_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42 --router_type dual --attr_mode joint && $PY evaluate_new.py --runs lo_RFM_dual_attr_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16 ",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dual_attr",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_dual_attr_s43",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_dual_attr_s43 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 43 --router_type dual --attr_mode joint && $PY evaluate_new.py --runs lo_RFM_dual_attr_s43 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_dual_attr_s43/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 43,
+"exp": "E6",
+"cfg": "dual_attr",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_dual_attr_s44",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_dual_attr_s44 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 44 --router_type dual --attr_mode joint && $PY evaluate_new.py --runs lo_RFM_dual_attr_s44 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_dual_attr_s44/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 44,
+"exp": "E6",
+"cfg": "dual_attr",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_dual_shared_s42",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name lo_RFM_dual_shared_s42 --model_type moe_diffmic --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --holdout RFM --epochs 114 --seed 42 --router_type dual --shared_expert && $PY evaluate_new.py --runs lo_RFM_dual_shared_s42 --splits test --stride 2 --avg_k 8 --tag _avg8 --amp bf16  && rm -f runs/lo_RFM_dual_shared_s42/best_model.pth",
+"cost": 0.75,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "moe_diffmic",
+"seed": 42,
+"exp": "E6",
+"cfg": "dual_shared",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_adapt_tf",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY loto_adapt.py --run lo_RFM_tf_s42 --holdout RFM --cnn_run lo_RFM_cnn_s42 --out runs/lo_RFM_tf_s42/loto_adapt.json",
+"cost": 0.3,
+"tier": 1,
+"deps": [
+"lo_RFM_tf_s42",
+"lo_RFM_cnn_s42"
+],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E6",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_clean_tf",
+"group": "E6",
+"machine": "A",
+"cmd": "rm -f runs/lo_RFM_tf_s42/best_model.pth",
+"cost": 0.001,
+"tier": 1,
+"deps": [
+"lo_RFM_adapt_tf"
+],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_adapt_dual_attr",
+"group": "E6",
+"machine": "A",
+"cmd": "$PY loto_adapt.py --run lo_RFM_dual_attr_s42 --holdout RFM --cnn_run lo_RFM_cnn_s42 --out runs/lo_RFM_dual_attr_s42/loto_adapt.json",
+"cost": 0.3,
+"tier": 1,
+"deps": [
+"lo_RFM_dual_attr_s42",
+"lo_RFM_cnn_s42"
+],
+"skip_if": null,
+"meta": {
+"kind": "script",
+"exp": "E6",
+"holdout": "RFM"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_clean_dual_attr",
+"group": "E6",
+"machine": "A",
+"cmd": "rm -f runs/lo_RFM_dual_attr_s42/best_model.pth",
+"cost": 0.001,
+"tier": 1,
+"deps": [
+"lo_RFM_adapt_dual_attr"
+],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "lo_RFM_clean_cnn",
+"group": "E6",
+"machine": "A",
+"cmd": "rm -f runs/lo_RFM_cnn_s42/best_model.pth",
+"cost": 0.001,
+"tier": 1,
+"deps": [
+"lo_RFM_adapt_tf",
+"lo_RFM_adapt_dual_attr"
+],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "cleanup_A",
+"group": "SYS",
+"machine": "A",
+"cmd": "BUILTIN:cleanup",
+"cost": 0.001,
+"tier": 3,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "script"
+},
+"deps_mode": "any_terminal"
+}
+]
+}

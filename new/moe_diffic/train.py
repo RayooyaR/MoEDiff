@@ -108,9 +108,9 @@ os.environ.setdefault('KMP_DUPLICATE_LIB_OK', 'TRUE')
 #    ⑥ 评估/日志    — eval_freq, early_stopping_patience, seed
 # ============================================================
 
-def parse_args():
+def build_parser():
     """
-    解析命令行参数, 返回 argparse.Namespace
+    构建命令行参数解析器（exp_train.py 在其上追加实验参数）；parse_args() 解析并返回 argparse.Namespace
     -----------------------------------------------
     使用 ArgumentDefaultsHelpFormatter 以便 --help 显示每个参数的默认值,
     便于实验复现和超参数记录。
@@ -129,7 +129,7 @@ def parse_args():
     #   'lmmse'       → LMMSEBaseline (线性最小均方误差自适应滤波)
     #   'moe_diffmic' → PhysicsMoEModel (物理感知 MoE + 多模态投影 + DiT)
     p.add_argument('--model_type', type=str, required=True,
-                   choices=['icdm', 'icdm_fixed', 'diffcom_1d', 'icdm_1d', 'cnn', 'mf', 'lmmse', 'moe_diffmic', 'dit_reg', 'mv_cnn'],
+                   choices=['icdm', 'icdm_fixed', 'diffcom_1d', 'icdm_1d', 'cnn', 'mf', 'lmmse', 'moe_diffmic', 'dit_reg', 'mv_cnn', 'res_diff', 'res_cnn', 'restormer'],
                    help='模型类型: icdm=扩散基线, icdm_fixed=修正版(复数IQ), diffcom_1d=DiffCom迁移基线, icdm_1d=双模型ICDM迁移基线, cnn=监督基线, mf=匹配滤波, lmmse=自适应滤波, moe_diffmic=MoE主模型')
     # 几何数据增强开关:
     #   关闭 → ICDM 基线实验 (无增强, 公平对比)
@@ -300,9 +300,11 @@ def parse_args():
                    help='周期评估最多用多少个验证 batch；0=全部（原代码写死只用前 16 个）')
     p.add_argument('--dit_hidden', type=int, default=256, help='DiT 隐层宽度（默认 256，约 7.0M 参数；272 约 7.9M，用于与 MoE-DiffIC 容量匹配的对照）')
     p.add_argument('--cnn_base_ch', type=int, default=32, help='CNN 基线的基础通道数（原设计 32，约 0.9M 参数）')
-    p.add_argument('--experts', nargs='+', default=['FD', 'MS', 'TF', 'TD'], choices=['FD', 'MS', 'TF', 'TD'],
+    p.add_argument('--amp', choices=['none', 'bf16'], default='none',
+                   help='[new-data] 混合精度：bf16=前向用 bfloat16 自动混合精度（损失、权重、EMA 仍为 fp32）；默认 none 与原行为一致')
+    p.add_argument('--experts', nargs='+', default=['FD', 'MS', 'TF', 'TD'], choices=['FD', 'MS', 'TF', 'TD', 'GN', 'GN2', 'GN3', 'GN4', 'CYC', 'CYX'],
                    help='[new-data] 使用的领域专家子集（专家消融）；默认全部四个')
-    p.add_argument('--router_type', choices=['legacy', 'prior'], default='legacy',
+    p.add_argument('--router_type', choices=['legacy', 'prior', 'dual'], default='legacy',
                    help='legacy=原无监督路由；prior=先验引导的稀疏 top-k 路由（models/prior_router.py）')
     p.add_argument('--router_noise', type=float, default=0.2, help='prior 路由训练期 logits 噪声标准差')
     p.add_argument('--route_loss_weight', type=float, default=0.1,
@@ -312,7 +314,11 @@ def parse_args():
     p.add_argument('--constellation_weight', type=float, default=0.0,
                    help='QPSK 星座约束权重；新数据（随机相位/频偏/定时、多种调制）下该项无效，默认 0 关闭')
 
-    return p.parse_args()
+    return p
+
+
+def parse_args():
+    return build_parser().parse_args()
 
 
 # ============================================================
@@ -509,6 +515,8 @@ def build_config(args):
             vis_freq=args.eval_freq,                   # 可视化频率 = 评估频率
         ),
     )
+    from exp_config import extend_config      # [exp] 实验扩展字段（均有默认值，旧 checkpoint 的 args 缺字段时行为不变）
+    config = extend_config(config, args)
     return config
 
 
@@ -1192,9 +1200,12 @@ def train(args):
     ema = EMA(base_model, decay=args.ema_rate)
 
     def _sample_from_model(noisy_norm, num_steps):
-        if isinstance(model, nn.DataParallel):
-            return model.module.sample(noisy_norm, num_steps=num_steps)
-        return model.sample(noisy_norm, num_steps=num_steps)
+        with torch.autocast('cuda', dtype=torch.bfloat16, enabled=(args.amp == 'bf16')):     # [new-data] 采样可选 bf16
+            if isinstance(model, nn.DataParallel):
+                out = model.module.sample(noisy_norm, num_steps=num_steps)
+            else:
+                out = model.sample(noisy_norm, num_steps=num_steps)
+        return out.float()
 
     # ================================================================
     #  data_scale 计算 — 扩散模型输入归一化
@@ -1335,7 +1346,10 @@ def train(args):
             #   - balance_loss:  标量 MoE 负载平衡损失 (仅 MoE 模型)
             #   - moe_alpha:     残差门控 α 值 (仅 MoE 模型)
             # 传统方法 (MF/LMMSE) 返回空字典 {}
-            result = model(noisy, clean) if args.model_type == 'cnn' else model(clean, noisy)   # [new-data] CNN 签名为 (noisy, clean)
+            with torch.autocast('cuda', dtype=torch.bfloat16, enabled=(args.amp == 'bf16')):   # [new-data] 可选 bf16 混合精度（只包前向）
+                result = model(noisy, clean) if args.model_type == 'cnn' else model(clean, noisy)   # [new-data] CNN 签名为 (noisy, clean)
+            if args.amp == 'bf16':                                                           # 损失一律在 fp32 下计算
+                result = {k: (v.float() if torch.is_tensor(v) and v.is_floating_point() else v) for k, v in result.items()}
 
             # ---- 传统方法特殊处理 ----
             if args.model_type in ['mf', 'lmmse']:

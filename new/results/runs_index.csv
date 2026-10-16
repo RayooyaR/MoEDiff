@@ -1,0 +1,359 @@
+﻿run,model_type,seed,backbone,experts,fusion,cond_mode,phys_aug,oracle_cond,extra_local,loss_variant,train_per_cell,aug_multiplier,epochs,data_root,params
+anc_cnn_A,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,1594498
+anc_cnn_B,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,1594498
+anc_cnn_C,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,1594498
+anc_tf_A,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+anc_tf_B,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+anc_tf_C,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+au_awgn_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,awgn,none,,default,4,10,159,../data/v2,9476226
+au_iqgain_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,iqgain,none,,default,4,10,159,../data/v2,9476226
+au_remix_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,,default,4,10,159,../data/v2,9476226
+au_remix_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,,default,4,10,159,../data/v2,9476226
+au_remix_p10_s44,moe_diffmic,44,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,,default,4,10,159,../data/v2,9476226
+au_rot_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,rot,none,,default,4,10,159,../data/v2,9476226
+au_rot_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,rot,none,,default,4,10,159,../data/v2,9476226
+au_rot_p10_s44,moe_diffmic,44,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,rot,none,,default,4,10,159,../data/v2,9476226
+au_rotremix_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,"rot,remix",none,,default,4,10,159,../data/v2,9476226
+au_rotremix_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,"rot,remix",none,,default,4,10,159,../data/v2,9476226
+au_rotremix_p10_s44,moe_diffmic,44,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,"rot,remix",none,,default,4,10,159,../data/v2,9476226
+au_shift_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,shift,none,,default,4,10,159,../data/v2,9476226
+base_zs2,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,60,../data/v2,1594498
+c_basecombo_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,9818467
+c_basecombo_s43,moe_diffmic,43,unet1d,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,9818467
+c_bb_top1_s43,moe_diffmic,43,unet1d,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,11663203
+c_bb_top1_s44,moe_diffmic,44,unet1d,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,11663203
+c_bb_top2_s43,moe_diffmic,43,unet1d,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7093315
+c_bb_top2_s44,moe_diffmic,44,unet1d,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7093315
+c_cond_top1_s43,moe_diffmic,43,dit,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,7483369
+c_cond_top1_s44,moe_diffmic,44,dit,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,7483369
+c_moe_compose_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,8166649
+c_moe_compose_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,8166649
+c_moe_compose_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,8166649
+c_moe_top2_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7976653
+c_moe_top2_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7976653
+d2a0_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,eps_only,4,10,159,../data/v2,9818467
+d2b_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,mrstft_mag,4,10,159,../data/v2,9818467
+d2c_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,mrstft_cplx,4,10,159,../data/v2,9818467
+de_cnn_p100_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,1594498
+de_cnn_p100_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,1594498
+de_cnn_p100_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,1594498
+de_cnn_p10_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,91,../data/v2,1594498
+de_cnn_p10_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,91,../data/v2,1594498
+de_cnn_p10_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,91,../data/v2,1594498
+de_cnn_p30_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,101,../data/v2,1594498
+de_cnn_p30_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,101,../data/v2,1594498
+de_cnn_p30_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,101,../data/v2,1594498
+de_dit_p100_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7009544
+de_dit_p100_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7009544
+de_dit_p100_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7009544
+de_dit_p10_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,7009544
+de_dit_p10_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,7009544
+de_dit_p10_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,7009544
+de_dit_p30_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,176,../data/v2,7009544
+de_dit_p30_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,176,../data/v2,7009544
+de_dit_p30_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,176,../data/v2,7009544
+de_joint_p100_s42,res_diff,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,,1,159,../data/v2,12038729
+de_joint_p100_s43,res_diff,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,,1,159,../data/v2,12038729
+de_joint_p10_s42,res_diff,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,4,10,159,../data/v2,12038729
+de_joint_p10_s43,res_diff,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,4,10,159,../data/v2,12038729
+de_joint_p30_s42,res_diff,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,12,3,176,../data/v2,12038729
+de_joint_p30_s43,res_diff,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,12,3,176,../data/v2,12038729
+de_moe_p100_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,,1,159,../data/v2,10443335
+de_moe_p100_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,,1,159,../data/v2,10443335
+de_moe_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,4,10,159,../data/v2,10443335
+de_moe_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,4,10,159,../data/v2,10443335
+de_moe_p30_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,12,3,176,../data/v2,10443335
+de_moe_p30_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,12,3,176,../data/v2,10443335
+de_res_p100_s42,res_diff,42,unet1d,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,11413861
+de_res_p100_s43,res_diff,43,unet1d,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,11413861
+de_res_p10_s42,res_diff,42,unet1d,['TF'],xattn,adaln,none,,,,4,10,159,../data/v2,11413861
+de_res_p10_s43,res_diff,43,unet1d,['TF'],xattn,adaln,none,,,,4,10,159,../data/v2,11413861
+de_res_p30_s42,res_diff,42,unet1d,['TF'],xattn,adaln,none,,,,12,3,176,../data/v2,11413861
+de_res_p30_s43,res_diff,43,unet1d,['TF'],xattn,adaln,none,,,,12,3,176,../data/v2,11413861
+de_tf_p100_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+de_tf_p100_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+de_tf_p100_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+de_tf_p10_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,4,10,159,../data/v2,7351785
+de_tf_p10_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,4,10,159,../data/v2,7351785
+de_tf_p10_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,4,10,159,../data/v2,7351785
+de_tf_p30_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,12,3,176,../data/v2,7351785
+de_tf_p30_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,12,3,176,../data/v2,7351785
+de_tf_p30_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,12,3,176,../data/v2,7351785
+deb_cnn_p100_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,1594498
+deb_cnn_p10_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,91,../data/v2,1594498
+deb_cnn_p30_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,101,../data/v2,1594498
+deb_dit_p100_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7009544
+deb_dit_p10_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,7009544
+deb_dit_p30_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,12,3,176,../data/v2,7009544
+deb_tf_p100_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+deb_tf_p10_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,4,10,159,../data/v2,7351785
+deb_tf_p30_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,12,3,176,../data/v2,7351785
+e10_rc_s42,res_cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,3189254
+e10_rc_s43,res_cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,3189254
+e10_rc_s44,res_cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,3189254
+e10_rdTF_s42,res_diff,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,8948331
+e10_rdTF_s43,res_diff,43,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,8948331
+e10_rdTF_s44,res_diff,44,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,8948331
+e10_rdU_s42,res_diff,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,8606090
+e10w_rdTF_s42,res_diff,42,unet1d,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,13258597
+e12_est,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,100,../data/v2,1594498
+e14_awgn_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,awgn,,,,4,10,159,../data/v2,7351785
+e14_combo1_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,"awgn,shift",,,,4,10,159,../data/v2,7351785
+e14_combo1_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,"awgn,shift",,,,4,10,159,../data/v2,7351785
+e14_combo1_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,"awgn,shift",,,,4,10,159,../data/v2,7351785
+e14_combo2_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,"awgn,iqgain",,,,4,10,159,../data/v2,7351785
+e14_iqgain_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,iqgain,,,,4,10,159,../data/v2,7351785
+e14_none_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,4,10,159,../data/v2,7351785
+e14_none_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,4,10,159,../data/v2,7351785
+e14_none_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,4,10,159,../data/v2,7351785
+e14_remix_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,remix,,,,4,10,159,../data/v2,7351785
+e14_rot_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,rot,,,,4,10,159,../data/v2,7351785
+e14_shift_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,shift,,,,4,10,159,../data/v2,7351785
+e14_top1_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,awgn,,,,4,10,159,../data/v2,7351785
+e14_top1_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,awgn,,,,4,10,159,../data/v2,7351785
+e1_fd_s42,moe_diffmic,42,dit,['FD'],xattn,xattn,none,,,,,1,159,../data/v2,7066857
+e1_four_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7818445
+e1_four_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7818445
+e1_four_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7818445
+e1_generic4_s42,moe_diffmic,42,dit,"['GN', 'GN2', 'GN3', 'GN4']",xattn,xattn,none,,,,,1,159,../data/v2,7521964
+e1_generic4_s43,moe_diffmic,43,dit,"['GN', 'GN2', 'GN3', 'GN4']",xattn,xattn,none,,,,,1,159,../data/v2,7521964
+e1_generic4_s44,moe_diffmic,44,dit,"['GN', 'GN2', 'GN3', 'GN4']",xattn,xattn,none,,,,,1,159,../data/v2,7521964
+e1_ms_s42,moe_diffmic,42,dit,['MS'],xattn,xattn,none,,,,,1,159,../data/v2,7271017
+e1_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,e1,default,4,10,159,../data/v2,9569906
+e1_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,e1,default,4,10,159,../data/v2,9569906
+e1_td_s42,moe_diffmic,42,dit,['TD'],xattn,xattn,none,,,,,1,159,../data/v2,7189770
+e1_tf_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+e1_tf_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+e1_tf_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7351785
+e1_uniform4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,159,../data/v2,7818445
+e1_uniform4_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,159,../data/v2,7818445
+e1_uniform4_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,159,../data/v2,7818445
+e2_generic2_s42,moe_diffmic,42,dit,"['GN', 'GN2']",xattn,xattn,none,,,,,1,159,../data/v2,7271146
+e2_shared4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7976653
+e2_sharedTF_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7509993
+e3_joint4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7951577
+e3_jointTF_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7385068
+e3_prefrz4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7951577
+e3_preft4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7951577
+e4_dual_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7898531
+e4_morph_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7898531
+e4_noint_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7898531
+e4_oracle_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7898531
+e4_prior_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7875309
+e4_strength_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7898531
+e5_sum_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",sum_single,xattn,none,,,,,1,159,../data/v2,7818445
+e5_topk_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",topk_mask,xattn,none,,,,,1,159,../data/v2,7898531
+e7_dit0_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,7009544
+e7_dwTF192_s42,moe_diffmic,42,diffwave,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7907299
+e7_dwTF_s42,moe_diffmic,42,diffwave,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,4045027
+e7_u0_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,159,../data/v2,6751074
+e7_uTF48_s42,moe_diffmic,42,unet1d,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7093315
+e7_uTF_s42,moe_diffmic,42,unet1d,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,11663203
+e8_tok16_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7483113
+e8_tok32_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,159,../data/v2,7483113
+e9_adaln_s42,moe_diffmic,42,dit,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,7483369
+e9_film_s42,moe_diffmic,42,dit,['TF'],xattn,film,none,,,,,1,159,../data/v2,7943913
+ef_diffcom,diffcom_1d,42,,,,,,,,,,1,100,../data/v5_effects,
+ef_dit,moe_diffmic,42,,,,,,,,,,1,100,../data/v5_effects,
+ef_icdm,icdm_1d,42,,,,,,,,,,1,100,../data/v5_effects,
+ef_moe,moe_diffmic,42,,,,,,,,,,1,100,../data/v5_effects,
+exp_moe_legacy,moe_diffmic,42,,,,,,,,,,,100,../data/v2,
+exp_moe_prior,moe_diffmic,42,,,,,,,,,,,100,../data/v2,
+exp_nomoe,moe_diffmic,42,,,,,,,,,,,100,../data/v2,
+fs_K10_diffcom,diffcom_1d,42,,,,,,,,,10,2,150,../data/v2,
+fs_K10_dit,moe_diffmic,42,,,,,,,,,10,2,150,../data/v2,
+fs_K10_icdm,icdm_1d,42,,,,,,,,,10,2,150,../data/v2,
+fs_K10_moe,moe_diffmic,42,,,,,,,,,10,2,150,../data/v2,
+fs_K10_na_diffcom,diffcom_1d,42,,,,,,,,,10,2,150,../data/v2,
+fs_K10_na_dit,moe_diffmic,42,,,,,,,,,10,2,150,../data/v2,
+fs_K10_na_icdm,icdm_1d,42,,,,,,,,,10,2,150,../data/v2,
+fs_K10_na_moe,moe_diffmic,42,,,,,,,,,10,2,150,../data/v2,
+fs_K1_diffcom,diffcom_1d,42,,,,,,,,,1,20,150,../data/v2,
+fs_K1_dit,moe_diffmic,42,,,,,,,,,1,20,150,../data/v2,
+fs_K1_icdm,icdm_1d,42,,,,,,,,,1,20,150,../data/v2,
+fs_K1_moe,moe_diffmic,42,,,,,,,,,1,20,150,../data/v2,
+fs_K1_na_diffcom,diffcom_1d,42,,,,,,,,,1,20,150,../data/v2,
+fs_K1_na_dit,moe_diffmic,42,,,,,,,,,1,20,150,../data/v2,
+fs_K1_na_icdm,icdm_1d,42,,,,,,,,,1,20,150,../data/v2,
+fs_K1_na_moe,moe_diffmic,42,,,,,,,,,1,20,150,../data/v2,
+fs_K5_diffcom,diffcom_1d,42,,,,,,,,,5,4,150,../data/v2,
+fs_K5_dit,moe_diffmic,42,,,,,,,,,5,4,150,../data/v2,
+fs_K5_icdm,icdm_1d,42,,,,,,,,,5,4,150,../data/v2,
+fs_K5_moe,moe_diffmic,42,,,,,,,,,5,4,150,../data/v2,
+fs_K5_na_diffcom,diffcom_1d,42,,,,,,,,,5,4,150,../data/v2,
+fs_K5_na_dit,moe_diffmic,42,,,,,,,,,5,4,150,../data/v2,
+fs_K5_na_icdm,icdm_1d,42,,,,,,,,,5,4,150,../data/v2,
+fs_K5_na_moe,moe_diffmic,42,,,,,,,,,5,4,150,../data/v2,
+fs_p10_diffcom_s42,diffcom_1d,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,7007496
+fs_p10_diffcom_s43,diffcom_1d,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,7007496
+fs_p10_diffcom_s44,diffcom_1d,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,7007496
+fs_p10_icdm_s42,icdm_1d,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,14014992
+fs_p10_icdm_s43,icdm_1d,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,14014992
+fs_p10_icdm_s44,icdm_1d,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,159,../data/v2,14014992
+j0_p100_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,9818467
+j0_p100_s43,moe_diffmic,43,unet1d,['TF'],xattn,adaln,none,,,,,1,159,../data/v2,9818467
+j0_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,,4,10,159,../data/v2,9818467
+j0_p10_s43,moe_diffmic,43,unet1d,['TF'],xattn,adaln,none,,,,4,10,159,../data/v2,9818467
+j0_p10_s44,moe_diffmic,44,unet1d,['TF'],xattn,adaln,none,,,default,4,10,159,../data/v2,9818467
+j4_p100_s42,res_diff,42,unet1d,"['FD', 'MS', 'TF', 'TD']",uniform,adaln,none,,,,,1,159,../data/v2,11880521
+j4_p100_s43,res_diff,43,unet1d,"['FD', 'MS', 'TF', 'TD']",uniform,adaln,none,,,,,1,159,../data/v2,11880521
+j4_p10_s42,res_diff,42,unet1d,"['FD', 'MS', 'TF', 'TD']",uniform,adaln,none,,,,4,10,159,../data/v2,11880521
+j4_p10_s43,res_diff,43,unet1d,"['FD', 'MS', 'TF', 'TD']",uniform,adaln,none,,,,4,10,159,../data/v2,11880521
+j5_p100_s42,mv_cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,2825287
+j5_p100_s43,mv_cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,91,../data/v2,2825287
+j5_p10_s42,mv_cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,91,../data/v2,2825287
+j5_p10_s43,mv_cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,91,../data/v2,2825287
+l2_tf_bf16_s42,moe_diffmic,42,,['TF'],,,,,,,,1,160,../data/v2,
+l2_tf_bf16_s43,moe_diffmic,43,,['TF'],,,,,,,,1,160,../data/v2,
+l2b_tf_bf16_s44,moe_diffmic,44,,['TF'],,,,,,,,1,160,../data/v2,
+l2b_tf_fp32_s43,moe_diffmic,43,,['TF'],,,,,,,,1,160,../data/v2,
+lo_LFM_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_LFM_cnn_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_LFM_cnn_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_LFM_dit0_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7009544
+lo_LFM_dual_attr_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_LFM_dual_attr_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_LFM_dual_attr_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_LFM_dual_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7898531
+lo_LFM_dual_shared_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8056739
+lo_LFM_legacy4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_LFM_legacy4_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_LFM_legacy4_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_LFM_static4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,114,../data/v2,7818445
+lo_LFM_tf_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_LFM_tf_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_LFM_tf_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_MT_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_MT_cnn_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_MT_cnn_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_MT_dit0_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7009544
+lo_MT_dual_attr_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_MT_dual_attr_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_MT_dual_attr_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_MT_dual_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7898531
+lo_MT_dual_shared_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8056739
+lo_MT_legacy4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_MT_legacy4_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_MT_legacy4_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_MT_static4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,114,../data/v2,7818445
+lo_MT_tf_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_MT_tf_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_MT_tf_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_PL_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_PL_cnn_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_PL_cnn_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_PL_dit0_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7009544
+lo_PL_dual_attr_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_PL_dual_attr_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_PL_dual_attr_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_PL_dual_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7898531
+lo_PL_dual_shared_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8056739
+lo_PL_legacy4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_PL_legacy4_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_PL_legacy4_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_PL_static4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,114,../data/v2,7818445
+lo_PL_tf_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_PL_tf_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_PL_tf_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_RFM_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_RFM_cnn_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_RFM_cnn_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_RFM_dit0_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7009544
+lo_RFM_dual_attr_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_RFM_dual_attr_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_RFM_dual_attr_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_RFM_dual_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7898531
+lo_RFM_dual_shared_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8056739
+lo_RFM_legacy4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_RFM_legacy4_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_RFM_legacy4_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_RFM_static4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,114,../data/v2,7818445
+lo_RFM_tf_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_RFM_tf_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_RFM_tf_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_WB_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_WB_cnn_s43,cnn,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_WB_cnn_s44,cnn,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lo_WB_dit0_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7009544
+lo_WB_dual_attr_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_WB_dual_attr_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_WB_dual_attr_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8031663
+lo_WB_dual_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7898531
+lo_WB_dual_shared_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,8056739
+lo_WB_legacy4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_WB_legacy4_s43,moe_diffmic,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_WB_legacy4_s44,moe_diffmic,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,114,../data/v2,7818445
+lo_WB_static4_s42,moe_diffmic,42,dit,"['FD', 'MS', 'TF', 'TD']",uniform,xattn,none,,,,,1,114,../data/v2,7818445
+lo_WB_tf_s42,moe_diffmic,42,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_WB_tf_s43,moe_diffmic,43,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lo_WB_tf_s44,moe_diffmic,44,dit,['TF'],xattn,xattn,none,,,,,1,114,../data/v2,7351785
+lof_LFM_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lof_LFM_moe_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,,1,114,../data/v2,10443335
+lof_LFM_tf_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,,,1,114,../data/v2,9818467
+lof_MT_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lof_MT_moe_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,,1,114,../data/v2,10443335
+lof_MT_tf_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,,,1,114,../data/v2,9818467
+lof_PL_cnn_s42,cnn,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,,1,65,../data/v2,1594498
+lof_PL_moe_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,,,1,114,../data/v2,10443335
+lof_PL_tf_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,none,,,,,1,114,../data/v2,9818467
+m2_cyc_p10_s42,moe_diffmic,42,unet1d,"['TF', 'CYC']",uniform,adaln,none,,,default,4,10,159,../data/v2,9853764
+m2_cyc_p10_s43,moe_diffmic,43,unet1d,"['TF', 'CYC']",uniform,adaln,none,,,default,4,10,159,../data/v2,9853764
+m2_cyc_p10_s44,moe_diffmic,44,unet1d,"['TF', 'CYC']",uniform,adaln,none,,,default,4,10,159,../data/v2,9853764
+nw_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,none,default,4,10,200,../data/v2,9476226
+nw_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,none,default,4,10,200,../data/v2,9476226
+om_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,oracle_mask,default,4,10,159,../data/v2,9483394
+om_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,oracle_mask,default,4,10,159,../data/v2,9483394
+oracle_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,type_attrs,,default,4,10,159,../data/v2,9511938
+oracle_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,type_attrs,,default,4,10,159,../data/v2,9511938
+oracle_p10_s44,moe_diffmic,44,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,type_attrs,,default,4,10,159,../data/v2,9511938
+orr_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,type_attrs,,default,4,10,159,../data/v2,9511938
+orr_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,type_attrs,,default,4,10,159,../data/v2,9511938
+rest_p10_s42,restormer,42,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,,4,10,91,../data/v2,22774468
+rest_p10_s43,restormer,43,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,default,4,10,91,../data/v2,22774468
+rest_p10_s44,restormer,44,dit,"['FD', 'MS', 'TF', 'TD']",xattn,xattn,none,,,default,4,10,91,../data/v2,22774468
+ry_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remixys,none,none,default,4,10,159,../data/v2,9476226
+ry_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remixys,none,none,default,4,10,159,../data/v2,9476226
+tfk_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,remix,none,none,default,4,10,159,../data/v2,9818467
+tfr_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,remix,none,,default,4,10,159,../data/v2,9818467
+tfr_p10_s43,moe_diffmic,43,unet1d,['TF'],xattn,adaln,remix,none,,default,4,10,159,../data/v2,9818467
+un0_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,default,4,10,159,../data/v2,9476226
+un0_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,default,4,10,159,../data/v2,9476226
+un0_p10_s44,moe_diffmic,44,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,,,default,4,10,159,../data/v2,9476226
+v4b_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,none,default,6,10,107,../data/v4_digital,9476226
+v4b_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,none,default,6,10,107,../data/v4_digital,9476226
+v4m_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,none,oracle_mask,default,6,10,107,../data/v4_digital,9483394
+v4n_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,none,none,default,6,10,107,../data/v4_digital,9476226
+v4n_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,none,none,none,default,6,10,107,../data/v4_digital,9476226
+v4o_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,type_attrs,none,default,6,10,107,../data/v4_digital,9511938
+v4o_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remix,type_attrs,none,default,6,10,107,../data/v4_digital,9511938
+v4ry_p10_s42,moe_diffmic,42,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remixys,none,none,default,6,10,107,../data/v4_digital,9476226
+v4ry_p10_s43,moe_diffmic,43,unet1d,"['FD', 'MS', 'TF', 'TD']",xattn,adaln,remixys,none,none,default,6,10,107,../data/v4_digital,9476226
+v4t_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,remix,none,none,default,6,10,107,../data/v4_digital,9818467
+v4t_p10_s43,moe_diffmic,43,unet1d,['TF'],xattn,adaln,remix,none,none,default,6,10,107,../data/v4_digital,9818467
+v4to_p10_s42,moe_diffmic,42,unet1d,['TF'],xattn,adaln,remix,type_attrs,none,default,6,10,107,../data/v4_digital,9854179
+v4to_p10_s43,moe_diffmic,43,unet1d,['TF'],xattn,adaln,remix,type_attrs,none,default,6,10,107,../data/v4_digital,9854179
+zs1_diffcom,diffcom_1d,42,,,,,,,,,,1,130,../data/v2,
+zs1_dit,moe_diffmic,42,,,,,,,,,,1,130,../data/v2,
+zs1_ditL,moe_diffmic,42,,,,,,,,,,1,130,../data/v2,
+zs1_ex_TF,moe_diffmic,42,,['TF'],,,,,,,,1,130,../data/v2,
+zs1_icdm,icdm_1d,42,,,,,,,,,,1,130,../data/v2,
+zs1_moe,moe_diffmic,42,,,,,,,,,,,130,../data/v2,
+zs2_diffcom,diffcom_1d,42,,,,,,,,,,,160,../data/v2,
+zs2_dit,moe_diffmic,42,,,,,,,,,,,160,../data/v2,
+zs2_ditL,moe_diffmic,42,,,,,,,,,,1,160,../data/v2,
+zs2_ex_FD,moe_diffmic,42,,['FD'],,,,,,,,1,160,../data/v2,
+zs2_ex_TD,moe_diffmic,42,,['TD'],,,,,,,,1,160,../data/v2,
+zs2_ex_TF,moe_diffmic,42,,['TF'],,,,,,,,1,160,../data/v2,
+zs2_ex_TF_s43,moe_diffmic,43,,['TF'],,,,,,,,1,160,../data/v2,
+zs2_ex_TF_s44,moe_diffmic,44,,['TF'],,,,,,,,1,160,../data/v2,
+zs2_ex_noTF,moe_diffmic,42,,"['FD', 'MS', 'TD']",,,,,,,,1,160,../data/v2,
+zs2_icdm,icdm_1d,42,,,,,,,,,,,160,../data/v2,
+zs2_moe,moe_diffmic,42,,,,,,,,,,,160,../data/v2,
+zs2_moe_s43,moe_diffmic,43,,,,,,,,,,,160,../data/v2,
+zs2_moe_s44,moe_diffmic,44,,,,,,,,,,,160,../data/v2,
+zs3_diffcom,diffcom_1d,42,,,,,,,,,,1,115,../data/v2,
+zs3_dit,moe_diffmic,42,,,,,,,,,,1,115,../data/v2,
+zs3_ditL,moe_diffmic,42,,,,,,,,,,1,115,../data/v2,
+zs3_ex_TF,moe_diffmic,42,,['TF'],,,,,,,,1,115,../data/v2,
+zs3_icdm,icdm_1d,42,,,,,,,,,,1,115,../data/v2,
+zs3_moe,moe_diffmic,42,,,,,,,,,,,115,../data/v2,

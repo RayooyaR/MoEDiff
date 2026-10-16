@@ -41,13 +41,18 @@ def main():
     ap.add_argument('--kind', choices=['diffcom', 'icdm'], required=True)
     ap.add_argument('--data_root', default=None)
     ap.add_argument('--splits', nargs='+', default=['test'])
+    ap.add_argument('--warm_start', action='store_true', help='DiffCom：官方式热启动')
+    ap.add_argument('--val_stride', type=int, default=1, help='验证集调参时每隔几条取一条')
+    ap.add_argument('--final_avg8', action='store_true', help='最终评估直接做平均 8 次采样（stride 2，tag _avg8），不再做单次采样评估')
+    ap.add_argument('--amp', default='none')
     a = ap.parse_args()
+    base_extra = (['--warm_start'] if a.warm_start else []) + ['--amp', a.amp]
     flag, grid = ('--dps_step', [10, 30, 100]) if a.kind == 'diffcom' else ('--dual_gamma', [0.5, 0.75, 1.0])
     seen = {}
 
     def score(v):
         if v not in seen:
-            f = ev(a.run, 'val', flag, v, '_tune%g' % v, a.data_root)
+            f = ev(a.run, 'val', flag, v, '_tune%g' % v, a.data_root, extra=base_extra + ['--stride', str(a.val_stride)])
             seen[v] = float(np.load(f)['ber_model'].mean())
         return seen[v]
     for _ in range(3):                                   # 最多向外扩 3 次
@@ -65,7 +70,10 @@ def main():
     best = min(seen, key=seen.get)
     json.dump({'kind': a.kind, 'chosen': best, 'val_ber': seen}, open(os.path.join(HERE, 'runs', a.run, 'chosen.json'), 'w'), indent=1)
     for sp in a.splits:
-        ev(a.run, sp, flag, best, '', a.data_root)
+        if a.final_avg8:
+            ev(a.run, sp, flag, best, '_avg8', a.data_root, extra=base_extra + ['--stride', '2', '--avg_k', '8'])
+        else:
+            ev(a.run, sp, flag, best, '', a.data_root, extra=base_extra)
     print(a.run, a.kind, 'chosen', best, seen)
 
 

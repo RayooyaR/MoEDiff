@@ -1,0 +1,169 @@
+{
+"profile": "m10",
+"machine": "A",
+"gpus": 1,
+"jobs": [
+{
+"name": "rest_p10_s42",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p10_s42 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 91 --seed 42 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p10_s42 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p10_s42/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 42,
+"exp": "M10",
+"cfg": "rest_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs_p10_diffcom_s42",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs_p10_diffcom_s42 --model_type diffcom_1d --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 42 --dps_step_size 30 --dps_warm_start && $PY tune_and_eval.py --run fs_p10_diffcom_s42 --kind diffcom --warm_start --val_stride 2 --final_avg8 --amp none --splits test test_ood && rm -f runs/fs_p10_diffcom_s42/best_model.pth",
+"cost": 1.0,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "diffcom_1d",
+"seed": 42,
+"exp": "M10",
+"cfg": "diffcom_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs_p10_icdm_s42",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs_p10_icdm_s42 --model_type icdm_1d --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 42 --icdm_dual_gamma 0.75 && $PY tune_and_eval.py --run fs_p10_icdm_s42 --kind icdm --val_stride 2 --final_avg8 --amp bf16 --splits test test_ood && rm -f runs/fs_p10_icdm_s42/best_model.pth",
+"cost": 1.3,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "icdm_1d",
+"seed": 42,
+"exp": "M10",
+"cfg": "icdm_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p10_s43",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p10_s43 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 91 --seed 43 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p10_s43 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p10_s43/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 43,
+"exp": "M10",
+"cfg": "rest_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs_p10_diffcom_s43",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs_p10_diffcom_s43 --model_type diffcom_1d --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --dps_step_size 30 --dps_warm_start && $PY tune_and_eval.py --run fs_p10_diffcom_s43 --kind diffcom --warm_start --val_stride 2 --final_avg8 --amp none --splits test test_ood && rm -f runs/fs_p10_diffcom_s43/best_model.pth",
+"cost": 1.0,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "diffcom_1d",
+"seed": 43,
+"exp": "M10",
+"cfg": "diffcom_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs_p10_icdm_s43",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs_p10_icdm_s43 --model_type icdm_1d --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 43 --icdm_dual_gamma 0.75 && $PY tune_and_eval.py --run fs_p10_icdm_s43 --kind icdm --val_stride 2 --final_avg8 --amp bf16 --splits test test_ood && rm -f runs/fs_p10_icdm_s43/best_model.pth",
+"cost": 1.3,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "icdm_1d",
+"seed": 43,
+"exp": "M10",
+"cfg": "icdm_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "rest_p10_s44",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name rest_p10_s44 --model_type restormer --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 0.5 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 91 --seed 44 --restormer_dim 48 && $PY evaluate_new.py --runs rest_p10_s44 --splits test test_ood --stride 2 --avg_k 1 --tag _avg8 --amp bf16  && rm -f runs/rest_p10_s44/best_model.pth",
+"cost": 0.5,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "restormer",
+"seed": 44,
+"exp": "M10",
+"cfg": "rest_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs_p10_diffcom_s44",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs_p10_diffcom_s44 --model_type diffcom_1d --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 44 --dps_step_size 30 --dps_warm_start && $PY tune_and_eval.py --run fs_p10_diffcom_s44 --kind diffcom --warm_start --val_stride 2 --final_avg8 --amp none --splits test test_ood && rm -f runs/fs_p10_diffcom_s44/best_model.pth",
+"cost": 1.0,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "diffcom_1d",
+"seed": 44,
+"exp": "M10",
+"cfg": "diffcom_p10"
+},
+"deps_mode": "all_done"
+},
+{
+"name": "fs_p10_icdm_s44",
+"group": "M10",
+"machine": "A",
+"cmd": "$PY exp_train.py --exp_name fs_p10_icdm_s44 --model_type icdm_1d --lr 3e-4 --batch_size 32 --num_workers 0 --ddim_steps 25 --eval_freq 5 --val_every 5 --warmup_epochs 5 --amp bf16 --val_stride 2 --abort_chance_frac 9 --skip_final_eval --new_types ST MT NB WB PL --train_per_cell 4 --aug_multiplier 10 --epochs 159 --seed 44 --icdm_dual_gamma 0.75 && $PY tune_and_eval.py --run fs_p10_icdm_s44 --kind icdm --val_stride 2 --final_avg8 --amp bf16 --splits test test_ood && rm -f runs/fs_p10_icdm_s44/best_model.pth",
+"cost": 1.3,
+"tier": 1,
+"deps": [],
+"skip_if": null,
+"meta": {
+"kind": "train",
+"model": "icdm_1d",
+"seed": 44,
+"exp": "M10",
+"cfg": "icdm_p10"
+},
+"deps_mode": "all_done"
+}
+]
+}
